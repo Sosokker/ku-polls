@@ -1,0 +1,26 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<main>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to KU Polls</h1>
+            <p>Explore and participate in our weird poll questions.</p>
+        </div>
+    </section>
+    <section class="polls-section">
+        <h2>Recent Polls</h2>
+        <p class="total-polls">Total number of polls: {{ total_polls }}</p>
+        <div class="poll-cards">
+            {% if latest_question_list %}
+                {% for question in latest_question_list %}
+                    <div class="poll-card">
+                        <h3><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></h3>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No polls are available.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}
