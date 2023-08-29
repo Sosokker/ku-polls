@@ -33,7 +33,7 @@ then
 
 ## Project Documents
 
-All project documents are in the [Project Wiki]([../../wiki/Home](https://github.com/Sosokker/ku-polls/wiki)).
+All project documents are in the [Project Wiki](https://github.com/Sosokker/ku-polls/wiki).
 
 - [Vision Statement](https://github.com/Sosokker/ku-polls/wiki/Vision-Statement)
 - [Requirements](https://github.com/Sosokker/ku-polls/wiki/Requirements)
