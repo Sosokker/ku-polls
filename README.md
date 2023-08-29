@@ -1,10 +1,9 @@
-# ku-polls
+## KU Polls: Online Survey Questions 
 
-## Online Polls 
+An application to conduct online polls and surveys based
+on the [Django Tutorial project](https://docs.djangoproject.com/en/4.2/intro/tutorial01/), with additional features.
 
-**KU Poll** is a web application to do online polls.
-
-## How to install and ku-polls
+## Install and Run
 
 Window
 
@@ -32,7 +31,11 @@ then
 .venv\Scripts\activate
 ```
 
-## Document
+## Project Documents
 
-- [Wiki Page](https://github.com/Sosokker/ku-polls/wiki)
-- [Project Page](https://github.com/users/Sosokker/projects/2)
+All project documents are in the [Project Wiki]([../../wiki/Home](https://github.com/Sosokker/ku-polls/wiki)).
+
+- [Vision Statement](https://github.com/Sosokker/ku-polls/wiki/Vision-Statement)
+- [Requirements](https://github.com/Sosokker/ku-polls/wiki/Requirements)
+
+[django-tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/)
