@@ -86,13 +86,13 @@ class QuestionModelTests(TestCase):
 
     def test_can_vote_with_question_ending_in_future(self):
         """
-        can_vote() should return False for questions that are published but have
-        an end date in the future.
+        can_vote() should return True for questions that are published and
+        the current time is within the allowed voting period.
         """
         pub_date = timezone.now() - datetime.timedelta(hours=1)
         end_date = timezone.now() + datetime.timedelta(hours=2)
         question = Question(pub_date=pub_date, end_date=end_date)
-        self.assertIs(question.can_vote(), False)
+        self.assertIs(question.can_vote(), True)
 
 
 def create_question(question_text, days):

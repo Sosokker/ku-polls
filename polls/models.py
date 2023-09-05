@@ -74,7 +74,8 @@ class Question(models.Model):
         now = timezone.now()
         if self.end_date is None:
             return self.pub_date <= now
-        return self.pub_date <= now <= self.end_date
+        else:
+            return self.pub_date <= now <= self.end_date
 
 
 class Choice(models.Model):
