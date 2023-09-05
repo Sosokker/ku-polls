@@ -17,8 +17,14 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['latest_question_list'] = Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-        context['total_polls'] = Question.objects.count()
+        all_questions = Question.objects.all()
+        #* Check if the question is published and can be voted. Then, sort by pub_date
+        published_questions = [q for q in all_questions if q.is_published() and q.can_vote()]
+        latest_published_questions = sorted(published_questions, key=lambda q: q.pub_date, reverse=True)[:5]
+
+        context['latest_question_list'] = latest_published_questions
+        context['total_open_polls'] = sum(1 for q in published_questions if q.end_date is None)
+        context['total_polls'] = all_questions.count()
         return context
 
 

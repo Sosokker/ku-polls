@@ -10,7 +10,7 @@
     </section>
     <section class="polls-section">
         <h2>Recent Polls</h2>
-        <p class="total-polls">Total number of polls: {{ total_polls }}</p>
+        <p class="total-polls">Total number of polls: {{ total_open_polls }}</p>
         <div class="poll-cards">
             {% if latest_question_list %}
                 {% for question in latest_question_list %}
