@@ -28,6 +28,8 @@ or
 
 **Don't forget to change `your_secret_key` to your secret key (without quote)**
 
+**You can look at `sample.env` for more information and others environment variables to set.**
+
 4. Run these commands
 ```bash
 python manage.py migrate
