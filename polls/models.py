@@ -9,11 +9,11 @@ Attributes:
     None
 """
 
-import datetime
-
 from django.db import models
 from django.utils import timezone
 from django.contrib import admin
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Sum
 
 
 class Question(models.Model):
@@ -25,9 +25,14 @@ class Question(models.Model):
         pub_date (datetime): The date and time when the question was published.
     """
 
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("date published", default=timezone.now)
+    question_text = models.CharField(max_length=100)
+    short_description = models.CharField(max_length=200, default="Cool kids have polls")
+    long_description = models.TextField(max_length=2000, default="No description provide for this poll.")
+    pub_date = models.DateTimeField("date published", default=timezone.now, editable=False)
     end_date = models.DateTimeField("date ended", null=True)
+    up_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    down_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    participant_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
 
     def was_published_recently(self):
         """
@@ -37,7 +42,7 @@ class Question(models.Model):
             bool: True if the question was published within the last day, else False.
         """
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+        return now - timezone.timedelta(days=1) <= self.pub_date <= now
 
     @admin.display(
         boolean=True,
@@ -46,7 +51,7 @@ class Question(models.Model):
     )
     def was_published_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+        return now - timezone.timedelta(days=1) <= self.pub_date <= now
 
     def __str__(self):
         """
@@ -77,6 +82,57 @@ class Question(models.Model):
         else:
             return self.pub_date <= now <= self.end_date
 
+    def calculate_time_left(self):
+        """
+        Calculate the time left until the end date.
+
+        Returns:
+            str: A formatted string representing the time left.
+        """
+        if self.end_date is None:
+            return "No end date"
+
+        now = timezone.now()
+        time_left = self.end_date - now
+
+        days, seconds = divmod(time_left.total_seconds(), 86400)
+        hours, seconds = divmod(seconds, 3600)
+        minutes, seconds = divmod(seconds, 60)
+
+        time_left_str = ""
+        if days > 0:
+            time_left_str += f"{int(days)} D "
+        elif hours > 0:
+            time_left_str += f"{int(hours)} H "
+        elif minutes > 0:
+            time_left_str += f"{int(minutes)} M "
+        elif seconds > 0:
+            time_left_str += f"{int(seconds)} S "
+
+        return time_left_str.strip()
+
+    @property
+    def time_left(self):
+        return self.calculate_time_left()
+
+    def calculate_vote_percentage(self):
+        total_vote = self.up_vote_count + self.down_vote_count
+        if total_vote == 0:
+            return (0, 0)
+
+        up_vote_percentage = self.up_vote_count / total_vote * 100
+        down_vote_percentage = self.down_vote_count / total_vote * 100
+
+        return (int(up_vote_percentage), int(down_vote_percentage))
+
+    @property
+    def up_vote_percentage(self):
+        return self.calculate_vote_percentage()[0]
+
+    @property
+    def down_vote_percentage(self):
+        return self.calculate_vote_percentage()[1]
+
 
 class Choice(models.Model):
     """
@@ -90,7 +146,30 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    votes = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+
+    def tailwind_width_class(self):
+        """
+        Calculate and return the Tailwind CSS width class based on the 'votes' percentage.
+        """
+        total_votes = self.question.choice_set.aggregate(Sum('votes')).get('votes__sum', 0)
+        #! Tailwind w-0 to w-48
+        if total_votes == 0:
+            return 'w-0'
+
+        ratio = self.votes / total_votes
+
+        scaled_value = ratio * 48
+
+        return f'w-{int(round(scaled_value))}'
+
+    def calculate_percentage(self):
+        total_votes_for_question = self.question.choice_set.aggregate(Sum('votes'))['votes__sum'] or 0
+
+        if total_votes_for_question == 0:
+            return 0
+        else:
+            return round((self.votes / total_votes_for_question) * 100, 2)
 
     def __str__(self):
         """

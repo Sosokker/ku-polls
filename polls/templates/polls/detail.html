@@ -2,23 +2,109 @@
 
 {% block content %}
 <main>
-    <section class="poll-details">
-        <form action="{% url 'polls:vote' question.id %}" method="post" class="poll-form">
-            {% csrf_token %}
-            <fieldset>
-                <legend class="poll-question">{{ question.question_text }}</legend>
-                {% if error_message %}
-                    <p class="error-message"><strong>{{ error_message }}</strong></p>
-                {% endif %}
-                {% for choice in question.choice_set.all %}
-                    <div class="choice">
-                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                        <label for="choice{{ forloop.counter }}" class="choice-text">{{ choice.choice_text }}</label>
+    <!-- Vote Page Content -->
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-semibold mb-2">{{ question_text }}</h1>
+        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+        <p class="text-gray-600 mb-4 hover:bg-amber-100 text-black px-2 py-1 rounded-md mr-2">{{ long_description }}</p>
+
+        <!-- Tags and Stats Section (tag) to be add -->
+        <div class="flex flex-wrap items-center text-gray-600 mb-4">
+            <div class="flex items-center bg-orange-100 text-black px-2 py-1 rounded-md mr-2">
+                <span class="mr-2">👤 {{ participant_count }} Participants</span>
+                <span class="mr-2">👍 {{ question.up_vote_percentage }}% Upvoted</span>
+                <span>👎 {{ question.down_vote_percentage }}% Downvoted</span>
+            </div>
+        </div>
+
+        <!-- Modern Choice Selection -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4 ">
+            <h2 class="text-xl font-semibold mb-4">Which one would you prefer:</h2>
+
+            <div class="flex flex-col space-y-4">
+                <form action="{% url 'polls:vote' question.id %}" method="post" class="poll-form" id="poll-form">
+                    {% csrf_token %}
+                    <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                        <div id="selected-choice" class="mt-4 text-lg font-bold text-green-500">Please Select a Choice😊</div>
                     </div>
-                {% endfor %}
-            </fieldset>
-            <button type="submit" class="vote-button">Vote</button>
-        </form>
-    </section>
+                    {% if error_message %}
+                    <div class="bg-red p-4 rounded-lg shadow-md mb-4 ">
+                        <p class="error-message text-red-500"><strong>{{ error_message }}</strong></p>
+                    </div
+                    {% endif %}
+                    <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <!-- Buttons as choices (hidden) -->
+                            {% for choice in question.choice_set.all %}
+                                <label>
+                                    <input type="radio" name="choice" value="{{ choice.id }}" class="hidden" />
+                                    <button
+                                    type="button"
+                                    class="choice-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md transition-colors duration-300 w-full py-5 font-bold text-lg truncate"
+                                    onclick="toggleChoice(this, '{{ choice.id }}')"
+                                >
+                                    {{ choice.choice_text }}
+                                </button>                                
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div> 
+                    
+                    <!-- Submit -->
+                    <div class="flex flex-row-reverse">
+                        <a href="{% url 'polls:index' %}" class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition-colors duration-300">
+                            Back to Polls
+                        </a>
+                        <button type="submit" class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-300 hidden" id="vote-button">
+                            Go Back
+                        </button>
+                        <button class="bg-blue-500 text-white px-4 py-2 mx-5 rounded-lg hover:bg-blue-600 transition-colors duration-300">Vote</button>
+                    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
+
+<script>
+    const toggleChoice = (button, choiceId) => {
+        const choiceInput = document.querySelector(`input[name="choice"][value="${choiceId}"]`);
+    
+        if (choiceInput) {
+            // already selected -> unselect it
+            if (choiceInput.checked) {
+                choiceInput.checked = false;
+                button.classList.remove('bg-green-500', 'border-solid', 'border-2', 'border-green-500', 'hover:bg-green-600');
+                button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                // Clear display
+                document.getElementById('selected-choice').textContent = 'Please Select a Choice😊';
+            } else {
+                // Unselect all choices
+                document.querySelectorAll('input[name="choice"]').forEach((choice) => {
+                    choice.checked = false;
+                });
+    
+                // Select the clicked choice
+                choiceInput.checked = true;
+    
+                // Reset the style of all choice buttons
+                document.querySelectorAll('.choice-button').forEach((btn) => {
+                    btn.classList.remove('bg-green-500', 'border-solid', 'border-2', 'border-green-500', 'hover:bg-green-600');
+                    btn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                });
+    
+                button.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                button.classList.add('bg-green-500', 'border-solid', 'border-2', 'border-green-500', 'hover:bg-green-600');
+    
+                const choiceText = button.textContent.trim();
+                document.getElementById('selected-choice').textContent = `You selected: ${choiceText}`;
+            }
+    
+            // Enable the "Vote" button -> if select
+            const voteButton = document.getElementById('vote-button');
+            voteButton.disabled = !document.querySelector('input[name="choice"]:checked');
+        }
+    };
+</script>
 {% endblock content %}

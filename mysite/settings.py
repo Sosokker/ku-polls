@@ -26,10 +26,15 @@ SECRET_KEY = config('SECRET_KEY', default='k2pd1p)zwe0qy0k25=sli+7+n^vd-0h*&6vga
 #! SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+LANGUAGE_CODE = 'en-us'
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-TIME_ZONE = config('TIME_ZONE', default='Asia/Bangkok', cast=str)
+TIME_ZONE = config('TIME_ZONE', default='UTC', cast=str)
 
+USE_I18N = True
+
+USE_TZ = True
 # Application definition
 
 INSTALLED_APPS = [

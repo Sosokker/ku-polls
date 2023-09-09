@@ -8,42 +8,15 @@ from django.views.generic import TemplateView
 from .models import Choice, Question
 
 
-class HomeView(TemplateView):
-    """
-    Provide a view for Home page(first page).
-    """
-
-    template_name = 'polls/home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        all_questions = Question.objects.all()
-        #* Check if the question is published and can be voted. Then, sort by pub_date
-        published_questions = [q for q in all_questions if q.is_published() and q.can_vote()]
-        latest_published_questions = sorted(published_questions, key=lambda q: q.pub_date, reverse=True)[:5]
-
-        context['latest_question_list'] = latest_published_questions
-        context['total_open_polls'] = sum(1 for q in published_questions if q.end_date is None)
-        context['total_polls'] = all_questions.count()
-        return context
-
-
 class IndexView(generic.ListView):
-    """
-    Provide a view for Index page that list all polls.
-    """
+    """View for index.html."""
 
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
-            :5
-        ]
+        """Return the last five published questions."""
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
@@ -61,14 +34,34 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        question = self.object
+        
+        context['question_text'] = question.question_text
+        context['short_description'] = question.short_description
+        context['long_description'] = question.long_description
+        context['pub_date'] = question.pub_date
+        context['end_date'] = question.end_date
+        context['up_vote_count'] = question.up_vote_count
+        context['down_vote_count'] = question.down_vote_count
+        context['participant_count'] = question.participant_count
+        
+        return context
+
 
 class ResultsView(generic.DetailView):
-    """
-    Provide a view for result page that show up when user submit on of the choices.
-    """
-
     model = Question
     template_name = "polls/results.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['question'] = self.object
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        return render(self.request, self.template_name, context)
 
 
 def vote(request, question_id):
