@@ -1,19 +1,97 @@
 {% extends 'polls/base.html' %}
 
 {% block content %}
-<section class="polls-section">
-    <h2>Recent Polls</h2>
-    <div class="poll-cards">
-        {% if latest_question_list %}
-            {% for question in latest_question_list %}
-                <div class="poll-card">
-                    <h3><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></h3>
-                    <p class="publication-date">Published on: {{ question.pub_date|date:"F j, Y" }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No polls are available.</p>
-        {% endif %}
+<main>
+    <!-- Navbar -->
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-2xl font-semibold text-white">KU POLL</div>
+
+            <!-- Button -->
+            <div>
+                {% comment %} <button class="mr-4 rounded-md bg-green-500 px-4 py-2 text-white">New Poll</button> {% endcomment %}
+                <button class="text-white">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4">
+        <header class="mb-4 flex items-center justify-between">
+            <h1 class="text-2xl font-semibold">Explore Polls</h1>
+            <button class="rounded-md bg-green-500 px-4 py-2 text-white">New Poll</button>
+        </header>
+
+        <!-- Filter Section -->
+        <div class="mb-4">
+            <input type="text" placeholder="Search for polls..." class="w-full rounded-md border border-gray-300 px-4 py-2" />
+        </div>
+
+        <!-- Trends Polls Section -->
+        <section class="mb-6">
+            <h2 class="mb-4 text-2xl font-semibold">Trending</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+                {% for question in latest_question_list %}
+                <a class="rounded-lg bg-white p-4 shadow-md">
+                    <h2 class="mb-2 text-xl font-semibold">{{ question.question_text }}</h2>
+                    <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-400">
+                    <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
+                    <div class="mb-2 flex items-center text-gray-600">
+                        <span class="mr-2">👍</span>
+                        <span>{{ question.up_vote_percentage }}% Upvoted</span>
+                
+                        <span class="ml-4 mr-2">👎</span>
+                        <span>{{ question.down_vote_percentage }}% Downvoted</span>
+                    </div>
+                    <!-- Tag / Time -->
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
+                        <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black"> {{ question.participant_count }} Participants 👤</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 py-4">
+                        <button onclick="window.location.href='{% url 'polls:detail' question.id %}'" class="mr-2 rounded-md bg-white px-2 py-1 text-black border-solid border-2 border-black hover:bg-gray-500 transform translate-y-0 hover:translate-y-1 transition-transform">VOTE</button>
+                        <button onclick="window.location.href='{% url 'polls:results' question.id %}'" class="mr-2 rounded-md bg-white px-2 py-1 text-black border-solid border-2 border-black hover:bg-gray-500 transform translate-y-0 hover:translate-y-1 transition-transform">VIEW</button>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        </section>
+
+        <!-- Poll Cards Section -->
+        <section>
+            <h2 class="mb-4 text-2xl font-semibold">Polls</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+
+                {% for question in latest_question_list %}
+                <a href="{% url 'polls:detail' question.id %}" class="rounded-lg bg-white p-4 shadow-md">
+                    <h2 class="mb-2 text-xl font-semibold">{{ question.question_text }}</h2>
+                    <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
+                    <div class="mb-2 flex items-center text-gray-600">
+
+                        <span class="mr-2">👍</span>
+                        <span>{{ question.up_vote_percentage }}% Upvoted</span>
+
+                        <span class="ml-4 mr-2">👎</span>
+                        <span>{{ question.down_vote_percentage }}% Downvoted</span>
+                    </div>
+                    <!-- Tag Time -->
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
+                        <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black"> {{ question.participant_count }} Participants 👤</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 py-4">
+                        <button onclick="window.location.href='{% url 'polls:detail' question.id %}'" class="mr-2 rounded-md bg-white px-2 py-1 text-black border-solid border-2 border-black hover:bg-gray-500 transform translate-y-0 hover:translate-y-1 transition-transform">VOTE</button>
+                        <button onclick="window.location.href='{% url 'polls:results' question.id %}'" class="mr-2 rounded-md bg-white px-2 py-1 text-black border-solid border-2 border-black hover:bg-gray-500 transform translate-y-0 hover:translate-y-1 transition-transform">VIEW</button>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        </section>
     </div>
-</section>
+</main>
 {% endblock content %}

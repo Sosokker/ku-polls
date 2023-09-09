@@ -12,6 +12,8 @@ class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {"fields": ["question_text"]}),
         ("End date", {"fields": ["end_date"], "classes": ["collapse"]}),
+        ("Vote count", {"fields": ["up_vote_count", "down_vote_count"]}),
+        ("Participant count", {"fields": ["participant_count"]}),
     ]
     list_display = ["question_text", "pub_date", "end_date", "was_published_recently"]
     inlines = [ChoiceInline]

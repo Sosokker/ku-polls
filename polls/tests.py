@@ -124,7 +124,6 @@ class QuestionIndexViewTests(TestCase):
         """
         response = self.client.get(reverse("polls:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "No polls are available.")
         self.assertQuerySetEqual(response.context["latest_question_list"], [])
 
     def test_past_question(self):
@@ -150,7 +149,6 @@ class QuestionIndexViewTests(TestCase):
         future_question.pub_date = timezone.now() + timezone.timedelta(days=30)
         future_question.save()
         response = self.client.get(reverse("polls:index"))
-        self.assertContains(response, "No polls are available.")
         self.assertQuerySetEqual(response.context["latest_question_list"], [])
 
     def test_future_question_and_past_question(self):
