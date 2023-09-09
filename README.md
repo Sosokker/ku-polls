@@ -37,7 +37,16 @@ python manage.py loaddata data/polls-v1.json
 python manage.py loaddata data/user.json
 python manage.py runserver
 ```
-Then connect to `http://127.0.0.1:8000/` or `localhost:8000/`
+
+***NOTE***
+
+By Default `DEBUG=False` and Django will not load CSS file for you so if you want to apply CSS run this.
+```bash
+python manage.py runserver --insecure
+```
+or set `DEBUG=True`
+
+Then connect to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) or [localhost:8000/](localhost:8000/)
 
 **Recommend**
 
