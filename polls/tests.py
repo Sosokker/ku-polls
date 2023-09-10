@@ -49,7 +49,7 @@ class QuestionModelTests(TestCase):
         Questions with the default pub_date (now) are displayed on the index page.
         """
         question = Question.objects.create(question_text="Default pub date question.")
-        
+
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
             response.context["latest_question_list"],
@@ -215,4 +215,3 @@ class QuestionDetailViewTests(TestCase):
         url = reverse("polls:detail", args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
-    

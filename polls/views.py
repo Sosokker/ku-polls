@@ -16,7 +16,9 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by(
+            "-pub_date"
+        )[:5]
 
 
 class DetailView(generic.DetailView):
@@ -36,18 +38,18 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         question = self.object
-        
-        context['question_text'] = question.question_text
-        context['short_description'] = question.short_description
-        context['long_description'] = question.long_description
-        context['pub_date'] = question.pub_date
-        context['end_date'] = question.end_date
-        context['up_vote_count'] = question.up_vote_count
-        context['down_vote_count'] = question.down_vote_count
-        context['participant_count'] = question.participant_count
-        
+
+        context["question_text"] = question.question_text
+        context["short_description"] = question.short_description
+        context["long_description"] = question.long_description
+        context["pub_date"] = question.pub_date
+        context["end_date"] = question.end_date
+        context["up_vote_count"] = question.up_vote_count
+        context["down_vote_count"] = question.down_vote_count
+        context["participant_count"] = question.participant_count
+
         return context
 
 
@@ -57,7 +59,7 @@ class ResultsView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['question'] = self.object
+        context["question"] = self.object
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -86,4 +88,3 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
-    
