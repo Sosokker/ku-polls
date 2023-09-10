@@ -11,6 +11,7 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {"fields": ["question_text"]}),
+        ("Published date", {"fields": ["pub_date"], "classes": ["collapse"]}),
         ("End date", {"fields": ["end_date"], "classes": ["collapse"]}),
         ("Vote count", {"fields": ["up_vote_count", "down_vote_count"]}),
         ("Participant count", {"fields": ["participant_count"]}),

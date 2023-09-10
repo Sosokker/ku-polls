@@ -23,16 +23,32 @@ class Question(models.Model):
     Attributes:
         question_text (str): The text of the poll question.
         pub_date (datetime): The date and time when the question was published.
+        end_date (datetime): The date and time when the question will end.
+        long_description (str): The long description of the poll question.
+        short_description (str): The short description of the poll question.
+        up_vote_count (int): The number of up votes the question has received.
+        down_vote_count (int): The number of down votes the question has received.
+        participant_count (int): The number of participants in the poll.
     """
 
     question_text = models.CharField(max_length=100)
     short_description = models.CharField(max_length=200, default="Cool kids have polls")
-    long_description = models.TextField(max_length=2000, default="No description provide for this poll.")
-    pub_date = models.DateTimeField("date published", default=timezone.now, editable=False)
+    long_description = models.TextField(
+        max_length=2000, default="No description provide for this poll."
+    )
+    pub_date = models.DateTimeField(
+        "date published", default=timezone.now, editable=True
+    )
     end_date = models.DateTimeField("date ended", null=True)
-    up_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
-    down_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
-    participant_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    up_vote_count = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
+    )
+    down_vote_count = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
+    )
+    participant_count = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
+    )
 
     def was_published_recently(self):
         """
@@ -101,13 +117,13 @@ class Question(models.Model):
 
         time_left_str = ""
         if days > 0:
-            time_left_str += f"{int(days)} D "
+            time_left_str += f"{int(days)} Days "
         elif hours > 0:
-            time_left_str += f"{int(hours)} H "
+            time_left_str += f"{int(hours)} Hours "
         elif minutes > 0:
-            time_left_str += f"{int(minutes)} M "
+            time_left_str += f"{int(minutes)} Mins "
         elif seconds > 0:
-            time_left_str += f"{int(seconds)} S "
+            time_left_str += f"{int(seconds)} Sec "
 
         return time_left_str.strip()
 
@@ -116,6 +132,7 @@ class Question(models.Model):
         return self.calculate_time_left()
 
     def calculate_vote_percentage(self):
+        """Calculate the percentage of up votes and down votes."""
         total_vote = self.up_vote_count + self.down_vote_count
         if total_vote == 0:
             return (0, 0)
@@ -146,25 +163,32 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    votes = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
+    )
 
     def tailwind_width_class(self):
         """
         Calculate and return the Tailwind CSS width class based on the 'votes' percentage.
         """
-        total_votes = self.question.choice_set.aggregate(Sum('votes')).get('votes__sum', 0)
+        total_votes = self.question.choice_set.aggregate(Sum("votes")).get(
+            "votes__sum", 0
+        )
         #! Tailwind w-0 to w-48
         if total_votes == 0:
-            return 'w-0'
+            return "w-0"
 
         ratio = self.votes / total_votes
 
         scaled_value = ratio * 48
 
-        return f'w-{int(round(scaled_value))}'
+        return f"w-{int(round(scaled_value))}"
 
     def calculate_percentage(self):
-        total_votes_for_question = self.question.choice_set.aggregate(Sum('votes'))['votes__sum'] or 0
+        """Calculate percentage of votes for all choices."""
+        total_votes_for_question = (
+            self.question.choice_set.aggregate(Sum("votes"))["votes__sum"] or 0
+        )
 
         if total_votes_for_question == 0:
             return 0
@@ -176,4 +200,3 @@ class Choice(models.Model):
         Returns a string representation of the choice.
         """
         return self.choice_text
-    

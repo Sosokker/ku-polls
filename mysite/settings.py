@@ -26,15 +26,8 @@ SECRET_KEY = config('SECRET_KEY', default='k2pd1p)zwe0qy0k25=sli+7+n^vd-0h*&6vga
 #! SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-LANGUAGE_CODE = 'en-us'
-
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-TIME_ZONE = config('TIME_ZONE', default='UTC', cast=str)
-
-USE_I18N = True
-
-USE_TZ = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -113,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = config('TIME_ZONE', default='UTC', cast=str)
 
 USE_I18N = True
 
@@ -124,6 +117,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# ! On production -> Configure your web server to serve the files in STATIC_ROOT under the URL STATIC_URL
+# * https://docs.djangoproject.com/en/4.2/howto/static-files/deployment/
+STATIC_ROOT = BASE_DIR / "assets"
 STATICFILES_DIRS = [BASE_DIR]
 
 # Default primary key field type
