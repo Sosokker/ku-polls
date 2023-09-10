@@ -2,116 +2,155 @@
 
 {% block content %}
 <main>
-    <!-- Result Page Content -->
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-semibold mb-4">{{ question.question_text }}</h1>
-        <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+  <nav class="bg-white p-4 shadow-xl border-b-2 border-solid border-neutral-700">
+    <div class="container mx-auto flex items-center justify-between">
+      <div class="text-2xl font-bold text-black">🤔{{ question.question_text }}</div>
 
-        <!-- Result Summary -->
-        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
-            <h2 class="text-xl font-semibold mb-2">Result Summary:</h2> 
-
-            {% for choice in question.choice_set.all %}
-            <div class="flex justify-between items-center mb-2">
-                <span>{{ choice.choice_text }}</span>
-                <div class="flex items-center">
-                    <span class="mr-2">👍 {{ choice.votes }}</span>
-                    <div class="percentage-bar">
-                        <div class="bar bg-blue-500 h-2" style="width: {{ choice.calculate_percentage }}%;"></div>
-                    </div>                    
-                </div>
+      <!-- Button -->
+      <div>
+        <div class="flex flex-wrap items-center space-x-2">
+          <header class="flex items-center justify-center">
+            <div class="flex flex-wrap items-center space-x-2">
+            <!--End-->
+            <button 
+            onclick="window.location.href='{% url 'polls:index' %}'" 
+            class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-orange-400 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-orange-700 focus:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-orange-900">
+              Back to Polls
+            </button>
             </div>
-            {% endfor %}
+          </header>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Result Page Content -->
+  <div class="container mx-auto p-4">
+
+    <!-- Result Summary -->
+    <div class="relative">
+    <div class="bg-white p-4 rounded-lg shadow-md mb-4 z-10 relative border-black border-solid border-2">
+      <h2 class="text-xl font-semibold mb-2">Result Summary:</h2>
+
+      {% for choice in question.choice_set.all %}
+      <div class="flex justify-between items-center mb-2">
+        <span>{{ choice.choice_text }}</span>
+        <div class="flex items-center">
+          <span class="mr-2">👍 {{ choice.votes }}</span>
+          <div class="percentage-bar">
+            <div class="bar bg-blue-500 h-2" style="width: {{ choice.calculate_percentage }}%;"></div>
+          </div>
         </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div
+    class="absolute inset-0 mt-1 ml-1 w-full rounded-lg border-2 border-neutral-700 bg-gradient-to-r from-green-400 to-blue-500 h-full"></div>
+  </div>
+
 
     <!-- Result Page Content -->
     <div class="container mx-auto grid grid-cols-3 gap-4">
-        <!-- Statistics -->
-        <div class="col-span-1 bg-white p-4 rounded-lg shadow-md mb-4">
-            <h2 class="text-xl font-semibold mb-2">🕵️ Statistics</h2>
-            <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black"> {{ question.participant_count }} Participants 👤</span>
-            <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">👍 {{ question.up_vote_percentage }}% </span>
-            <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black" >👎 {{ question.down_vote_percentage }}% </span>
+      <!-- Statistics -->
+      <div class="relative">
+        <div class="col-span-1 bg-white py-4 rounded-lg shadow-md mb-4 relative z-10 border-solid border-black border-2 h-full">
+        <h2 class="text-xl font-semibold mb-2">🕵️ Statistics</h2>
+        <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">
+          {{ question.participant_count }} Participants 👤
+        </span>
+        <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">👍 {{ question.up_vote_percentage }}% </span>
+        <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">👎 {{ question.down_vote_percentage }}% </span>
         </div>
+        <div
+          class="absolute inset-0 mt-1 ml-1 w-full rounded-lg border-2 border-neutral-700 bg-gradient-to-r from-green-400 to-blue-500 h-full"></div>
+      </div>
 
-        <!-- Pie Chart -->
-        <div class="col-span-1 bg-white p-4 rounded-lg shadow-md mb-4">
-            <h2 class="text-xl font-semibold mb-2">👋 Vote Percentage</h2>
-            <div class="w-full h-48 bg-gray-100 rounded-lg">
-                <canvas id="percentageChart"></canvas>
-            </div>
+      <!-- Pie Chart -->
+      <div class="relative">
+        <div class="col-span-1 bg-white py-4 rounded-lg shadow-md mb-4 relative z-10 border-solid border-black border-2 h-full">
+          <h2 class="text-xl font-semibold mb-2">👋 Vote Percentage</h2>
+          <div class="w-full h-48 bg-white rounded-lg">
+            <canvas id="percentageChart"></canvas>
+          </div>
         </div>
+        <div
+          class="absolute inset-0 mt-1 ml-1 w-full rounded-lg border-2 border-neutral-700 bg-gradient-to-r from-green-400 to-blue-500 h-full"></div>
+      </div>
 
-        <!-- Bar Chart -->
-        <div class="col-span-1 bg-white p-4 rounded-lg shadow-md mb-4">
-            <h2 class="text-xl font-semibold mb-2">👏 Vote Count</h2>
-            <div class="w-full h-48 bg-gray-100 rounded-lg">
-                <canvas id="voteCountChart"></canvas>
-            </div>
+      <!-- Bar Chart -->
+      <div class="relative">
+        <div class="col-span-1 bg-white py-4 rounded-lg shadow-md mb-4 relative z-10 border-solid border-black border-2 h-full">
+        <h2 class="text-xl font-semibold mb-2">👏 Vote Count</h2>
+        <div class="w-full h-48 bg-white rounded-lg">
+          <canvas id="voteCountChart"></canvas>
         </div>
-    </div>
-        
-        <!-- Back to Polls Button -->
-        <a href="{% url 'polls:index' %}" class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition-colors duration-300">
-            Back to Polls
-        </a>
-    </div>
+      </div>
+      <div
+      class="absolute inset-0 mt-1 ml-1 w-full rounded-lg border-2 border-neutral-700 bg-gradient-to-r from-green-400 to-blue-500 h-full"></div>
+  </div>
+
+    <!-- Back to Polls Button -->
+    {% comment %} <a
+      href="{% url 'polls:index' %}"
+      class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition-colors duration-300">
+      Back to Polls
+    </a> {% endcomment %}
+  </div>
 </main>
 
 <script>
-    var percentageCtx = document.getElementById('percentageChart').getContext('2d');
-    var percentageChart = new Chart(percentageCtx, {
-        type: 'pie',
-        data: {
-            labels: [{% for choice in question.choice_set.all %}"{{ choice.choice_text }}",{% endfor %}],
-            datasets: [{
-                label: 'Percentage',
-                data: [{% for choice in question.choice_set.all %}{{ choice.calculate_percentage }},{% endfor %}],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-        }
-    });    
-    var voteCountCtx = document.getElementById('voteCountChart').getContext('2d');
-    var voteCountChart = new Chart(voteCountCtx, {
-        type: 'bar',
-        data: {
-            labels: [{% for choice in question.choice_set.all %}"{{ choice.choice_text }}",{% endfor %}],
-            datasets: [{
-                label: 'Vote Count',
-                data: [{% for choice in question.choice_set.all %}{{ choice.votes }},{% endfor %}],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-        
+  var percentageCtx = document.getElementById('percentageChart').getContext('2d');
+  var percentageChart = new Chart(percentageCtx, {
+      type: 'pie',
+      data: {
+          labels: [{% for choice in question.choice_set.all %}"{{ choice.choice_text }}",{% endfor %}],
+          datasets: [{
+              label: 'Percentage',
+              data: [{% for choice in question.choice_set.all %}{{ choice.calculate_percentage }},{% endfor %}],
+              backgroundColor: [
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(255, 99, 132, 0.2)',
+              ],
+              borderColor: [
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+      }
+  });
+  var voteCountCtx = document.getElementById('voteCountChart').getContext('2d');
+  var voteCountChart = new Chart(voteCountCtx, {
+      type: 'bar',
+      data: {
+          labels: [{% for choice in question.choice_set.all %}"{{ choice.choice_text }}",{% endfor %}],
+          datasets: [{
+              label: 'Vote Count',
+              data: [{% for choice in question.choice_set.all %}{{ choice.votes }},{% endfor %}],
+              backgroundColor: [
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(255, 99, 132, 0.2)',
+              ],
+              borderColor: [
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
 </script>
 {% endblock content %}
