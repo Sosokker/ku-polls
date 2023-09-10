@@ -40,13 +40,16 @@ python manage.py runserver
 
 ***NOTE***
 
-By Default `DEBUG=False` and Django will not load CSS file for you so if you want to apply CSS run this.
+By Default `DEBUG=False` and Django will not load Static files for you so if you want to apply CSS run this.
 ```bash
 python manage.py runserver --insecure
 ```
 or set `DEBUG=True`
+or do the [collectstatic](https://docs.djangoproject.com/en/4.2/ref/contrib/staticfiles/)
 
 Then connect to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) or [localhost:8000/](localhost:8000/)
+
+----
 
 **Recommend**
 
@@ -78,5 +81,7 @@ All project documents are in the [Project Wiki](https://github.com/Sosokker/ku-p
 
 - [Vision Statement](https://github.com/Sosokker/ku-polls/wiki/Vision-Statement)
 - [Requirements](https://github.com/Sosokker/ku-polls/wiki/Requirements)
+- [Iteration1](https://github.com/Sosokker/ku-polls/wiki/Iteration-1-Plan)
+- [Iteration2](https://github.com/Sosokker/ku-polls/wiki/Iteration-2-Plan)
 
 [django-tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/)
