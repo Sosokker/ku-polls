@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import SignUpForm
 from .models import Choice, Question
@@ -22,7 +23,7 @@ class IndexView(generic.ListView):
         )[:5]
 
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     """
     Provide a view for detail page, a detail for each poll contain poll question
     and poll choices.
@@ -54,7 +55,7 @@ class DetailView(generic.DetailView):
         return context
 
 
-class ResultsView(generic.DetailView):
+class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
