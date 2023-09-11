@@ -16,9 +16,8 @@
 			</div>
 		</div>
 	</nav>
-
 	<!-- Vote Page Content -->
-	<div class="container mx-auto p-4">
+	{% comment %} <div class="container mx-auto p-4">
 		<!-- Participant + UP DOWN zone -->
 		<div class="flex flex-wrap items-center text-gray-600 mb-4 place-content-center">
 			<div class="flex items-center text-black py-1 rounded-md mr-2">
@@ -33,10 +32,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> {% endcomment %}
 
 	<!-- Modern Choice Selection -->
-	<div class="bg-white p-4 rounded-lg shadow-md mb-4">
+	<div class="bg-neutral-100 p-4 rounded-lg mb-4">
 		<div class="relative">
 			<div class="rounded-lg bg-white p-4 shadow-md border-solid border-2 border-neutral-500 relative z-10">
 				<div class="bg-white p-4 rounded-lg shadow-md mb-4">
@@ -50,11 +49,6 @@
 						<div class="bg-white p-4 rounded-lg shadow-md mb-4">
 							<div id="selected-choice" class="mt-4 text-lg font-bold text-green-500">Please Select a Choice😊</div>
 						</div>
-						{% if error_message %}
-						<div class="bg-red p-4 rounded-lg shadow-md mb-4">
-							<p class="error-message text-red-500"><strong>{{ error_message }}</strong></p>
-						</div>
-						{% endif %}
 						<div class="bg-white p-4 rounded-lg shadow-md mb-4">
 							<div class="grid grid-cols-3 gap-4">
 								<!-- Buttons as choices (hidden) -->
@@ -71,7 +65,7 @@
 								{% endfor %}
 							</div>
 						</div>
-
+	
 						<!-- Submit -->
 						<div class="flex flex-row-reverse">
 							<a
@@ -81,12 +75,9 @@
 							</a>
 							<button
 								type="submit"
-								class="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-300 hidden"
-								id="vote-button">
-								Go Back
-							</button>
-							<button
-								class="bg-blue-500 text-white px-4 py-2 mx-5 rounded-lg hover:bg-blue-600 transition-colors duration-300">
+								name="vote-button"
+								class="bg-blue-500 text-white px-4 py-2 mx-5 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+								id="vote-button" disabled>
 								Vote
 							</button>
 						</div>
