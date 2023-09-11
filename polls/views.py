@@ -112,7 +112,9 @@ def vote(request, question_id):
                     messages.success(request, "You vote successfully🥳")
                     return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
                 else:
+                    messages.success(request, "You vote successfully🥳")
                     Vote.objects.create(choice=selected_choice, user=request.user, question=question).save()
+                    return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
             else:
                 messages.error(request, "You cannot vote by typing the URL.")
                 return render(request, "polls/detail.html", {"question": question})
