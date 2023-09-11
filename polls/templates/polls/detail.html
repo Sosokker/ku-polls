@@ -46,14 +46,29 @@
 				<div class="flex flex-col space-y-4">
 					<form action="{% url 'polls:vote' question.id %}" method="post" class="poll-form" id="poll-form">
 						{% csrf_token %}
-						<div class="bg-white p-4 rounded-lg shadow-md mb-4">
-							<div id="selected-choice" class="mt-4 text-lg font-bold text-green-500">Please Select a Choice😊</div>
-						</div>
+						{% if selected_choice %}
+							<div class="bg-white p-4 rounded-lg shadow-md mb-4">
+								<div id="selected-choice-1" class="mt-4 text-lg font-bold text-orange-500">You have been voted: {{ selected_choice.choice_text }}</div>
+							</div>
+						{% else %}
+							<div class="bg-white p-4 rounded-lg shadow-md mb-4">
+								<div id="selected-choice-2" class="mt-4 text-lg font-bold text-green-500">Please Select a Choice😊</div>
+							</div>
+						{% endif %}
 						<div class="bg-white p-4 rounded-lg shadow-md mb-4">
 							<div class="grid grid-cols-3 gap-4">
 								<!-- Buttons as choices (hidden) -->
 								{% for choice in question.choice_set.all %}
 								<label>
+									{% if choice == selected_choice %}
+									<input type="radio" name="choice" value="{{ choice.id }}" class="hidden" />
+									<button
+										type="button"
+										class="choice-button selected bg-white-500 border-2 border-black hover:bg-neutral-200 text-black px-4 py-2 rounded-lg shadow-md transition-colors duration-300 w-full py-5 font-bold text-lg truncate"
+										onclick="toggleChoice(this, '{{ choice.id }}')">
+										{{ choice.choice_text }}
+									</button>
+									{% else %}
 									<input type="radio" name="choice" value="{{ choice.id }}" class="hidden" />
 									<button
 										type="button"
@@ -61,6 +76,7 @@
 										onclick="toggleChoice(this, '{{ choice.id }}')">
 										{{ choice.choice_text }}
 									</button>
+									{% endif %}
 								</label>
 								{% endfor %}
 							</div>

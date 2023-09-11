@@ -42,15 +42,15 @@
     <!-- Result Summary -->
     <div class="relative">
     <div class="bg-white p-4 rounded-lg shadow-md mb-4 z-10 relative border-black border-solid border-2">
-      <h2 class="text-xl font-semibold mb-2">Result Summary:</h2>
+      <h2 class="text-xl font-semibold mb-2">Result Summary</h2>
 
       {% for choice in question.choice_set.all %}
       <div class="flex justify-between items-center mb-2">
         <span>{{ choice.choice_text }}</span>
         <div class="flex items-center">
           <span class="mr-2">👍 {{ choice.votes }}</span>
-          <div class="percentage-bar">
-            <div class="bar bg-blue-500 h-2" style="width: {{ choice.calculate_percentage }}%;"></div>
+          <div class="vote-bar">
+            <div class="bar bg-blue-500 h-2" style="width: {{ choice.votes }}%;"></div>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
         <div class="col-span-1 bg-white py-4 rounded-lg shadow-md mb-4 relative z-10 border-solid border-black border-2 h-full">
         <h2 class="text-xl font-semibold mb-2">🕵️ Statistics</h2>
         <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">
-          {{ question.participant_count }} Participants 👤
+          {{ question.participants }} Participants 👤
         </span>
         <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">👍 {{ question.up_vote_percentage }}% </span>
         <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">👎 {{ question.down_vote_percentage }}% </span>
@@ -117,8 +117,8 @@
       data: {
           labels: [{% for choice in question.choice_set.all %}"{{ choice.choice_text }}",{% endfor %}],
           datasets: [{
-              label: 'Percentage',
-              data: [{% for choice in question.choice_set.all %}{{ choice.calculate_percentage }},{% endfor %}],
+              label: 'Vote Count',
+              data: [{% for choice in question.choice_set.all %}{{ choice.votes }},{% endfor %}],
               backgroundColor: [
                   'rgba(75, 192, 192, 0.2)',
                   'rgba(255, 99, 132, 0.2)',
