@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.contrib import admin
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Sum
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):

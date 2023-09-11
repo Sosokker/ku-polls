@@ -3,8 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
 
+from .forms import SignUpForm
 from .models import Choice, Question
 
 
@@ -64,6 +65,12 @@ class ResultsView(generic.DetailView):
 
     def render_to_response(self, context, **response_kwargs):
         return render(self.request, self.template_name, context)
+
+
+class SignUpView(generic.CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
 
 
 def vote(request, question_id):
