@@ -9,7 +9,7 @@ Attributes:
     None
 """
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils import timezone
 from django.contrib import admin
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -160,6 +160,36 @@ class Question(models.Model):
         """
         return self.vote_set.count()
 
+    # ! Most of the code from https://stackoverflow.com/a/70869267
+    def upvote(self, user):
+        try:
+            self.sentimentvote_set.create(user=user, question=self, vote_types=True)
+            self.up_vote_count += 1
+            self.save()
+        except IntegrityError:
+            vote = self.sentimentvote_set.filter(user=user)
+            if vote[0].vote_types == False:
+                vote.update(vote_types=True)
+                self.save()
+            else:
+                return 'already_upvoted'
+        return 'ok'
+
+
+    def downvote(self, user):
+        try:
+            self.sentimentvote_set.create(user=user, question=self, vote_types=False)
+            self.up_vote_count += 1
+            self.save()
+        except IntegrityError:
+            vote = self.sentimentvote_set.filter(user=user)
+            if vote[0].vote_types == True:
+                vote.update(vote_types=False)
+                self.save()
+            else:
+                return 'already_downvoted'
+        return 'ok'
+
 
 class Choice(models.Model):
     """
@@ -194,3 +224,13 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"{self.user} voted for {self.choice} in {self.question}"
+    
+
+# ! Most of the code from https://stackoverflow.com/a/70869267
+class SentimentVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    vote_types = models.BooleanField()
+
+    class Meta:
+        unique_together = ['user', 'question']
