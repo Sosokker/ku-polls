@@ -26,15 +26,22 @@
               </button>
             </form>
             <!--End-->
-            <button class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-green-700 focus:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-green-900">
-              New Poll
-            </button>
             </div>
           </header>
-        <a href="" 
-        class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-neutral-800 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-neutral-700 focus:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-neutral-900">
+          {% if user.is_authenticated %}
+          <button class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-green-700 focus:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-green-900">
+            New Poll
+          </button>
+        <a href="{% url 'logout' %}" 
+        class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-red-600 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-red-700 focus:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-neutral-900">
+            <span>Sign out <span class="hidden sm:inline-block">😭</span></span>
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" 
+        class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-neutral-800 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-neutral-700 focus:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-900">
             <span>Sign in <span class="hidden sm:inline-block">😎</span></span>
         </a>
+        {% endif %}
       </div>
       </div>
     </div>
@@ -75,7 +82,7 @@
           <div class="relative">
             <!-- INFO -->
             <div class="rounded-lg bg-white p-4 shadow-md border-solid border-2 border-yellow-500 relative z-10 transform translate-y-0 hover:translate-y-1 transition-transform">
-              <h2 class="mb-2 text-xl font-bold">{{ question.question_text }}</h2>
+              <h2 class="mb-2 text-xl font-bold truncate">{{ question.question_text }}</h2>
               <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-400" />
               <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
               <div class="mb-2 flex items-center text-gray-600">
@@ -88,7 +95,7 @@
               <!-- Tag / Time -->
               <div class="flex items-center text-gray-600">
                 <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
-                <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participant_count }} Participants 👤</span>
+                <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participants }} Participants 👤</span>
               </div>
               <div class="flex items-center text-gray-600 py-4">
                 <button
@@ -121,7 +128,7 @@
           <div class="relative">
             <!-- INFO -->
             <div class="rounded-lg bg-white p-4 shadow-md border-solid border-2 border-neutral-500 relative z-10 transform translate-y-0 hover:translate-y-1 transition-transform">
-              <h2 class="mb-2 text-xl font-semibold">{{ question.question_text }}</h2>
+              <h2 class="mb-2 text-xl font-semibold truncate">{{ question.question_text }}</h2>
               <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-400" />
               <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
               <div class="mb-2 flex items-center text-gray-600">
@@ -134,7 +141,7 @@
               <!-- Tag / Time -->
               <div class="flex items-center text-gray-600">
                 <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
-                <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participant_count }} Participants 👤</span>
+                <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participants }} Participants 👤</span>
               </div>
               <div class="flex items-center text-gray-600 py-4">
                 <button

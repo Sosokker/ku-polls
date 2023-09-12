@@ -1,0 +1,242 @@
+[
+{
+  "model": "polls.question",
+  "pk": 1,
+  "fields": {
+    "question_text": "Python vs C++, which one is better in your opinion?",
+    "pub_date": "2023-09-05T06:31:14Z",
+    "end_date": "2023-09-29T20:31:49Z",
+    "short_description": "Cool kids have polls",
+    "long_description": "No description provide for this poll.",
+    "up_vote_count": 5,
+    "down_vote_count": 0,
+    "participant_count": 6,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 2,
+  "fields": {
+    "question_text": "The chicken and the egg, which came first?",
+    "pub_date": "2023-09-11T02:50:04Z",
+    "end_date": "2023-09-19T23:50:19Z",
+    "short_description": "Cool kids have polls",
+    "long_description": "No description provide for this poll.",
+    "up_vote_count": 1,
+    "down_vote_count": 0,
+    "participant_count": 0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 3,
+  "fields": {
+    "question_text": "So far so good?",
+    "pub_date": "2023-08-03T06:50:43Z",
+    "end_date": "2023-11-15T19:50:53Z",
+    "short_description": "Cool kids have polls",
+    "long_description": "No description provide for this poll.",
+    "up_vote_count": 1,
+    "down_vote_count": 0,
+    "participant_count": 0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 4,
+  "fields": {
+    "question_text": "Do you love Django?",
+    "pub_date": "2023-09-11T19:51:12Z",
+    "end_date": "2023-09-13T17:51:18Z",
+    "short_description": "Cool kids have polls",
+    "long_description": "No description provide for this poll.",
+    "up_vote_count": 10,
+    "down_vote_count": 0,
+    "participant_count": 0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 1,
+  "fields": {
+    "question": 1,
+    "choice_text": "C++"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 2,
+  "fields": {
+    "question": 1,
+    "choice_text": "Python"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 3,
+  "fields": {
+    "question": 2,
+    "choice_text": "Egg!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 4,
+  "fields": {
+    "question": 2,
+    "choice_text": "Chicken"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 5,
+  "fields": {
+    "question": 3,
+    "choice_text": "Yes sir!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 6,
+  "fields": {
+    "question": 3,
+    "choice_text": "Nah"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 7,
+  "fields": {
+    "question": 4,
+    "choice_text": "Yeah for sure!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 8,
+  "fields": {
+    "question": 4,
+    "choice_text": "Hell nah!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 9,
+  "fields": {
+    "question": 4,
+    "choice_text": "No comment."
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 1,
+  "fields": {
+    "choice": 1,
+    "user": 1,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 2,
+  "fields": {
+    "choice": 2,
+    "user": 3,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 3,
+  "fields": {
+    "choice": 1,
+    "user": 2,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 4,
+  "fields": {
+    "choice": 7,
+    "user": 2,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 5,
+  "fields": {
+    "choice": 6,
+    "user": 2,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 6,
+  "fields": {
+    "choice": 4,
+    "user": 2,
+    "question": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 7,
+  "fields": {
+    "choice": 8,
+    "user": 4,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 8,
+  "fields": {
+    "choice": 6,
+    "user": 4,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 9,
+  "fields": {
+    "choice": 3,
+    "user": 4,
+    "question": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 10,
+  "fields": {
+    "choice": 2,
+    "user": 4,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 11,
+  "fields": {
+    "choice": 6,
+    "user": 3,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 12,
+  "fields": {
+    "choice": 3,
+    "user": 3,
+    "question": 2
+  }
+}
+]

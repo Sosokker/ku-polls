@@ -3,6 +3,7 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 from .models import Question
 
@@ -199,6 +200,9 @@ class QuestionDetailViewTests(TestCase):
         future_question.pub_date = timezone.now() + timezone.timedelta(days=5)
         future_question.save()
 
+        user = User.objects.create_user(username="testcase", password="123test123")
+        self.client.login(username="testcase", password="123test123")
+
         url = reverse("polls:detail", args=(future_question.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
@@ -211,6 +215,9 @@ class QuestionDetailViewTests(TestCase):
         past_question = Question.objects.create(question_text="Past Question.")
         past_question.pub_date = timezone.now() - timezone.timedelta(days=5)
         past_question.save()
+
+        user = User.objects.create_user(username="testcase", password="123test123")
+        self.client.login(username="testcase", password="123test123")
 
         url = reverse("polls:detail", args=(past_question.id,))
         response = self.client.get(url)

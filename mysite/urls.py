@@ -7,4 +7,5 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='polls:index'), name='home_redirect'),
     path("polls/", include("polls.urls")),
     path('admin/', admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]

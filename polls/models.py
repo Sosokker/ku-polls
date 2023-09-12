@@ -14,6 +14,17 @@ from django.utils import timezone
 from django.contrib import admin
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Sum
+from django.contrib.auth.models import User
+
+
+class Tag(models.Model):
+    """
+    Represents a tag for a poll question.
+    """
+    tag_text = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Question(models.Model):
@@ -32,23 +43,15 @@ class Question(models.Model):
     """
 
     question_text = models.CharField(max_length=100)
-    short_description = models.CharField(max_length=200, default="Cool kids have polls")
-    long_description = models.TextField(
-        max_length=2000, default="No description provide for this poll."
-    )
-    pub_date = models.DateTimeField(
-        "date published", default=timezone.now, editable=True
-    )
+    pub_date = models.DateTimeField("date published", default=timezone.now, editable=True)
     end_date = models.DateTimeField("date ended", null=True)
-    up_vote_count = models.PositiveIntegerField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
-    )
-    down_vote_count = models.PositiveIntegerField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
-    )
-    participant_count = models.PositiveIntegerField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
-    )
+    short_description = models.CharField(max_length=200, default="Cool kids have polls")
+    long_description = models.TextField(max_length=2000, default="No description provide for this poll.")
+    tags = models.ManyToManyField(Tag, blank=True)
+
+    up_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    down_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
+    participant_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
 
     def was_published_recently(self):
         """
@@ -150,6 +153,13 @@ class Question(models.Model):
     def down_vote_percentage(self):
         return self.calculate_vote_percentage()[1]
 
+    @property
+    def participants(self):
+        """
+        Calculate the number of participants based on the number of votes.
+        """
+        return self.vote_set.count()
+
 
 class Choice(models.Model):
     """
@@ -163,40 +173,24 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.PositiveIntegerField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)]
-    )
 
-    def tailwind_width_class(self):
-        """
-        Calculate and return the Tailwind CSS width class based on the 'votes' percentage.
-        """
-        total_votes = self.question.choice_set.aggregate(Sum("votes")).get(
-            "votes__sum", 0
-        )
-        #! Tailwind w-0 to w-48
-        if total_votes == 0:
-            return "w-0"
-
-        ratio = self.votes / total_votes
-
-        scaled_value = ratio * 48
-
-        return f"w-{int(round(scaled_value))}"
-
-    def calculate_percentage(self):
-        """Calculate percentage of votes for all choices."""
-        total_votes_for_question = (
-            self.question.choice_set.aggregate(Sum("votes"))["votes__sum"] or 0
-        )
-
-        if total_votes_for_question == 0:
-            return 0
-        else:
-            return round((self.votes / total_votes_for_question) * 100, 2)
+    @property
+    def votes(self):
+        return self.vote_set.count()
 
     def __str__(self):
         """
         Returns a string representation of the choice.
         """
-        return self.choice_text
+        return f"{self.choice_text} get ({self.votes})"
+
+
+class Vote(models.Model):
+    """Represent Vote of User for a poll question."""
+
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} voted for {self.choice} in {self.question}"

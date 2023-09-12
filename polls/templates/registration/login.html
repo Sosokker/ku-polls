@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 shadow-md rounded-md w-96">
+      <h2 class="text-3xl font-semibold text-center mb-6">Sign In</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-6 flex flex-col">
+          <p class="block text-gray-700 font-medium mb-2">Username</p>
+          {{ form.username }}
+        </div>
+        <div class="mb-6 flex flex-col">
+          <p class="block text-gray-700 font-medium mb-2">Password</p>
+          {{ form.password }}
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+          Log In
+        </button>
+      </form>
+      <p class="text-center mt-4 text-gray-600 text-sm">
+        Don't have an account? <a href="{% url 'polls:signup' %}" class="text-blue-500 hover:underline">Sign up here</a>
+      </p>
+      <p class="text-center mt-4 text-gray-600 text-sm">
+        Forget the Password? <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Reset here</a>
+      </p>
+      <a href="{% url 'polls:index' %}" class="mt-4 block text-center text-blue-500 hover:underline">Back to Poll</a>
+    </div>
+  </body>
+</html>
