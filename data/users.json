@@ -1,0 +1,92 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$aDh9a1PXxcXAb8z3YIjAPX$NVH24kt/wMad+0fZcCii738dfojI4vL2ffXOwNRuLz4=",
+    "last_login": "2023-09-12T04:02:42.758Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@email.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-09-11T18:24:20.740Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$quZKLKT8Ec3TQgpdqlCkpX$o+VOOnRDLGf64qjHb239Yvsre74tPkC8hw1qH1un/hk=",
+    "last_login": "2023-09-12T04:22:38.555Z",
+    "is_superuser": false,
+    "username": "tester1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:41:22.592Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1xGp6EDCoaljdTlSdVT1Mn$UID0Woeh8hwW7LtchH+hKzqdKTDeITTxQ/0DGvfG3CY=",
+    "last_login": "2023-09-11T19:57:39.303Z",
+    "is_superuser": false,
+    "username": "tester3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:41:41.209Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$fJJcIwAuIESYwZDBOqBv8t$YEDVCgg/xJOqAOiAdvGvvqgi1jgn1YfYHJE9yx2JWTA=",
+    "last_login": "2023-09-11T19:55:41.583Z",
+    "is_superuser": false,
+    "username": "tester2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:43:25.226Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$aHyU2gjOR6Vfsh3DBMIvQy$PZwRu+rOLc+N15DDguvy29dks6GUiN5YN/4io8b390o=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "novote",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:52:38.130Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

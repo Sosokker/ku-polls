@@ -75,6 +75,15 @@ python -m virtualenv .venv
 |:--:|:--:|
 |admin|ineedmorebullets|
 
+## Demo User
+
+|Username|Password|
+|:--:|:--:|
+|tester1|aa12345678aa|
+|tester2|aa12345678aa|
+|tester3|aa12345678aa|
+|tester4|aa12345678aa|
+
 ## Project Documents
 
 All project documents are in the [Project Wiki](https://github.com/Sosokker/ku-polls/wiki).
