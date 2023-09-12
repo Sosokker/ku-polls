@@ -121,4 +121,3 @@ def vote(request, question_id):
         else:
             messages.error(request, "You can not vote on this question.")
             return HttpResponseRedirect(reverse("polls:index"))
-    return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
