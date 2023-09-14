@@ -12,7 +12,6 @@ Attributes:
 from django.db import models, IntegrityError
 from django.utils import timezone
 from django.contrib import admin
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
@@ -48,10 +47,6 @@ class Question(models.Model):
     short_description = models.CharField(max_length=200, default="Cool kids have polls")
     long_description = models.TextField(max_length=2000, default="No description provide for this poll.")
     tags = models.ManyToManyField(Tag, blank=True)
-
-    up_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
-    down_vote_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
-    participant_count = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(2147483647)])
 
     def was_published_recently(self):
         """
@@ -164,7 +159,6 @@ class Question(models.Model):
     def upvote(self, user):
         try:
             self.sentimentvote_set.create(user=user, question=self, vote_types=True)
-            self.up_vote_count += 1
             self.save()
         except IntegrityError:
             vote = self.sentimentvote_set.filter(user=user)
@@ -175,11 +169,9 @@ class Question(models.Model):
                 return False
         return True
 
-
     def downvote(self, user):
         try:
             self.sentimentvote_set.create(user=user, question=self, vote_types=False)
-            self.up_vote_count += 1
             self.save()
         except IntegrityError:
             vote = self.sentimentvote_set.filter(user=user)
@@ -189,6 +181,14 @@ class Question(models.Model):
             else:
                 return False
         return True
+
+    @property
+    def up_vote_count(self):
+        return self.sentimentvote_set.filter(question=self, vote_types=True).count()
+
+    @property
+    def down_vote_count(self):
+        return self.sentimentvote_set.filter(question=self, vote_types=False).count()
 
 
 class Choice(models.Model):

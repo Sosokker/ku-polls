@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -86,9 +87,18 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
-    def render_to_response(self, context, **response_kwargs):
-        return render(self.request, self.template_name, context)
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+    
+        user_voted = None
+        question = self.get_object()
+        if question.sentimentvote_set.filter(user=self.request.user, question=question, vote_types=True).exists():
+            user_voted = 'upvote'
+        elif question.sentimentvote_set.filter(user=self.request.user, question=question, vote_types=False).exists():
+            user_voted = 'downvote'
 
+        context['user_voted'] = user_voted
+        return context
 
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
@@ -138,6 +148,22 @@ def vote(request, question_id):
         messages.error(request, "Invalid request method.")
         return redirect("polls:index")
     
+
+@login_required
+def up_down_vote(request, question_id, vote_type):
+    ip = get_client_ip(request)
+    question = get_object_or_404(Question, pk=question_id)
+    
+    if request.method == "POST":
+        if vote_type == "upvote":
+            if question.upvote(request.user):
+                messages.success(request, "You upvoted this Poll😊")
+        elif vote_type == "downvote":
+            if question.downvote(request.user):
+                messages.success(request, "You downvoted this Poll😭")
+    
+    return redirect(reverse("polls:results", args=(question_id,)))
+
 
 # https://stackoverflow.com/questions/4581789/how-do-i-get-user-ip-address-in-django
 def get_client_ip(request):

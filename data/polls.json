@@ -8,9 +8,6 @@
     "end_date": "2023-09-29T20:31:49Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
-    "up_vote_count": 5,
-    "down_vote_count": 0,
-    "participant_count": 6,
     "tags": []
   }
 },
@@ -23,9 +20,6 @@
     "end_date": "2023-10-18T23:50:19Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
-    "up_vote_count": 1,
-    "down_vote_count": 0,
-    "participant_count": 0,
     "tags": []
   }
 },
@@ -38,9 +32,6 @@
     "end_date": "2023-11-28T19:50:53Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
-    "up_vote_count": 1,
-    "down_vote_count": 0,
-    "participant_count": 0,
     "tags": []
   }
 },
@@ -53,9 +44,6 @@
     "end_date": "2023-09-29T17:51:18Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
-    "up_vote_count": 10,
-    "down_vote_count": 0,
-    "participant_count": 0,
     "tags": []
   }
 },
@@ -144,7 +132,7 @@
   "model": "polls.vote",
   "pk": 2,
   "fields": {
-    "choice": 2,
+    "choice": 1,
     "user": 3,
     "question": 1
   }
@@ -153,7 +141,7 @@
   "model": "polls.vote",
   "pk": 3,
   "fields": {
-    "choice": 1,
+    "choice": 2,
     "user": 2,
     "question": 1
   }
@@ -249,12 +237,129 @@
   }
 },
 {
+  "model": "polls.vote",
+  "pk": 14,
+  "fields": {
+    "choice": 7,
+    "user": 3,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 15,
+  "fields": {
+    "choice": 2,
+    "user": 6,
+    "question": 1
+  }
+},
+{
   "model": "polls.sentimentvote",
   "pk": 1,
   "fields": {
     "user": 1,
     "question": 1,
     "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "question": 2,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "question": 4,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "question": 3,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 5,
+  "fields": {
+    "user": 2,
+    "question": 1,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 6,
+  "fields": {
+    "user": 6,
+    "question": 1,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 7,
+  "fields": {
+    "user": 6,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 8,
+  "fields": {
+    "user": 6,
+    "question": 4,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 9,
+  "fields": {
+    "user": 3,
+    "question": 1,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 10,
+  "fields": {
+    "user": 3,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 11,
+  "fields": {
+    "user": 3,
+    "question": 4,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "question": 2,
+    "vote_types": true
   }
 }
 ]
