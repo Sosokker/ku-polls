@@ -3,8 +3,13 @@
   <!-- Navbar -->
   <nav class="bg-blue-500 p-4 shadow-xl border-b-2 border-solid border-neutral-700">
     <div class="container mx-auto flex items-center justify-between">
-      <div class="text-2xl font-bold text-white">📝KU POLL</div>
-
+      <div class="text-2xl font-bold text-white">
+        {% if user.is_authenticated %}
+        📝KU POLL | 👋 Hi! {{ user.username }}
+        {% else %}
+        📝KU POLL
+        {% endif %}
+      </div>
       <!-- Button -->
       <div>
         {% comment %}

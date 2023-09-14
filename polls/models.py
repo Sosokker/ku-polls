@@ -172,8 +172,8 @@ class Question(models.Model):
                 vote.update(vote_types=True)
                 self.save()
             else:
-                return 'already_upvoted'
-        return 'ok'
+                return False
+        return True
 
 
     def downvote(self, user):
@@ -187,8 +187,8 @@ class Question(models.Model):
                 vote.update(vote_types=False)
                 self.save()
             else:
-                return 'already_downvoted'
-        return 'ok'
+                return False
+        return True
 
 
 class Choice(models.Model):
