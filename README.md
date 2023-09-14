@@ -5,8 +5,23 @@ An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/4.2/intro/tutorial01/), with additional features.
 
 ## Install and Run
+### Run Setup.py Method
 
-1. Install [Python 3.11.4 or later](https://www.python.org/downloads/)
+Clone this repository and Run `setup.py` to install and run the project
+
+**Don't forget to answer the question from `setup.py` to setup the project**
+```bash
+git clone https://github.com/Sosokker/ku-polls
+cd ku-polls
+python setup.py
+```
+
+or run `setup.ps1` (For Windows User)
+
+----
+
+### Manual
+1. Install [Python 3.11 or later](https://www.python.org/downloads/)
 2. Run these commands to clone and install requirements.txt
 ```bash
 git clone https://github.com/Sosokker/ku-polls
@@ -33,8 +48,8 @@ or
 4. Run these commands
 ```bash
 python manage.py migrate
-python manage.py loaddata data/polls.json
 python manage.py loaddata data/users.json
+python manage.py loaddata data/polls.json
 python manage.py runserver
 ```
 
@@ -83,6 +98,7 @@ python -m virtualenv .venv
 |tester2|aa12345678aa|
 |tester3|aa12345678aa|
 |tester4|aa12345678aa|
+|novote |aa12345678aa|
 
 ## Project Documents
 
@@ -92,5 +108,6 @@ All project documents are in the [Project Wiki](https://github.com/Sosokker/ku-p
 - [Requirements](https://github.com/Sosokker/ku-polls/wiki/Requirements)
 - [Iteration1](https://github.com/Sosokker/ku-polls/wiki/Iteration-1-Plan)
 - [Iteration2](https://github.com/Sosokker/ku-polls/wiki/Iteration-2-Plan)
+- [Iteration3](https://github.com/Sosokker/ku-polls/wiki/Iteration-3-Plan)
 
 [django-tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/)

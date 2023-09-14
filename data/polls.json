@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "question_text": "Python vs C++, which one is better in your opinion?",
-    "pub_date": "2023-09-05T06:31:14Z",
+    "pub_date": "2023-09-11T06:31:14Z",
     "end_date": "2023-09-29T20:31:49Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
@@ -20,7 +20,7 @@
   "fields": {
     "question_text": "The chicken and the egg, which came first?",
     "pub_date": "2023-09-11T02:50:04Z",
-    "end_date": "2023-09-19T23:50:19Z",
+    "end_date": "2023-10-18T23:50:19Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
     "up_vote_count": 1,
@@ -35,7 +35,7 @@
   "fields": {
     "question_text": "So far so good?",
     "pub_date": "2023-08-03T06:50:43Z",
-    "end_date": "2023-11-15T19:50:53Z",
+    "end_date": "2023-11-28T19:50:53Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
     "up_vote_count": 1,
@@ -50,7 +50,7 @@
   "fields": {
     "question_text": "Do you love Django?",
     "pub_date": "2023-09-11T19:51:12Z",
-    "end_date": "2023-09-13T17:51:18Z",
+    "end_date": "2023-09-29T17:51:18Z",
     "short_description": "Cool kids have polls",
     "long_description": "No description provide for this poll.",
     "up_vote_count": 10,
@@ -180,7 +180,7 @@
   "model": "polls.vote",
   "pk": 6,
   "fields": {
-    "choice": 4,
+    "choice": 3,
     "user": 2,
     "question": 2
   }
@@ -237,6 +237,24 @@
     "choice": 3,
     "user": 3,
     "question": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 13,
+  "fields": {
+    "choice": 6,
+    "user": 6,
+    "question": 3
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "question": 1,
+    "vote_types": false
   }
 }
 ]
