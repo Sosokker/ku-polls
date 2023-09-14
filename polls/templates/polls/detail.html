@@ -61,10 +61,10 @@
 								{% for choice in question.choice_set.all %}
 								<label>
 									{% if choice == selected_choice %}
-									<input type="radio" name="choice" value="{{ choice.id }}" class="hidden" />
+									<input type="radio" name="choice" value="{{ choice.id }}" class="hidden" checked="checked"/>
 									<button
 										type="button"
-										class="choice-button selected bg-white-500 border-2 border-black hover:bg-neutral-200 text-black px-4 py-2 rounded-lg shadow-md transition-colors duration-300 w-full py-5 font-bold text-lg truncate"
+										class="choice-button selected bg-green-500 border-solid border-2 border-black hover:bg-green-600 text-black px-4 py-2 rounded-lg shadow-md transition-colors duration-300 w-full py-5 font-bold text-lg truncate"
 										onclick="toggleChoice(this, '{{ choice.id }}')">
 										{{ choice.choice_text }}
 									</button>
