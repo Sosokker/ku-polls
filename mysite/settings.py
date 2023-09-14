@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import logging
+import os
 from pathlib import Path
 from decouple import config, Csv
 
@@ -69,6 +71,95 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
+
+# * Loggin template from https://www.youtube.com/watch?v=m_EkU56KdJg, Modify a bit.
+
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
+
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
+
+# ! LOGGERS -> entry point into the logging system.
+
+LOGGERS = (
+    {
+        "django": {
+            "handlers": ["console_handler", "info_handler"],
+            "level": "INFO",
+        },
+        "django.request": {
+            "handlers": ["error_handler"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.template": {
+            "handlers": ["error_handler"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+        "django.server": {
+            "handlers": ["error_handler"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+)
+
+# ! FORMATTER -> a log record needs to be rendered as text. Formatters describe the exact format of that text.
+
+FORMATTERS = (
+    {
+        "verbose": {
+            "format": "{levelname} {asctime:s} {name} {threadName} {thread:d} {module} {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
+            "style": "{",
+        },
+    },
+)
+
+# ! HANDLERS -> The handler is the engine that determines what happens to each message in a logger
+
+HANDLERS = {
+    # StreamHandler -> sends log messages to the console
+    "console_handler": {
+        "class": "logging.StreamHandler",
+        "formatter": "simple",
+        "level": "DEBUG"
+    }, # RotatingFileHandlers -> write log messages to files
+    "info_handler": {
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": f"{BASE_DIR}/logs/blogthedata_info.log",
+        "mode": "a",
+        "encoding": "utf-8",
+        "formatter": "verbose",
+        "level": "INFO",
+        "backupCount": 5,
+        "maxBytes": 1024 * 1024 * 5,  # 5 MB
+    },
+    "error_handler": {
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": f"{BASE_DIR}/logs/blogthedata_error.log",
+        "mode": "a",
+        "formatter": "verbose",
+        "level": "WARNING",
+        "backupCount": 5,
+        "maxBytes": 1024 * 1024 * 5,  # 5 MB
+    },
+}
+
+
+# ! LOGGING
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # If set to True, it disables all loggers from previous configurations
+    "formatters": FORMATTERS[0],
+    "handlers": HANDLERS,
+    "loggers": LOGGERS[0],
+}
 
 
 # Database
