@@ -33,8 +33,8 @@ or
 4. Run these commands
 ```bash
 python manage.py migrate
-python manage.py loaddata data/polls-v1.json
-python manage.py loaddata data/user.json
+python manage.py loaddata data/polls.json
+python manage.py loaddata data/users.json
 python manage.py runserver
 ```
 
