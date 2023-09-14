@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect
+import logging
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -11,6 +12,9 @@ from django.db.models import Q
 
 from .forms import SignUpForm
 from .models import Choice, Question, Vote
+
+
+logger = logging.getLogger("django")
 
 
 class IndexView(generic.ListView):
@@ -98,14 +102,18 @@ def vote(request, question_id):
     A function that updates the database. Adds a vote count to the choice that the user votes for
     in a specific question_id.
     """
+    ip = get_client_ip(request)
     question = get_object_or_404(Question, pk=question_id)
 
     if request.method == "POST":
         try:
             selected_choice = question.choice_set.get(pk=request.POST["choice"])
         except (KeyError, Choice.DoesNotExist):
+            logger.error(f"User {request.user.username} ({ip}) didn't select choice.")
             messages.error(request, "You didn't select a choice.")
             return redirect("polls:detail", question_id)
+
+        logger.info(f"User {request.user.username} ({ip}) select choice {selected_choice}")
 
         if question.can_vote():
             # ! Return 1. object element 2. boolean status of creation
@@ -116,8 +124,10 @@ def vote(request, question_id):
             )
 
             if created:
+                logger.info(f"User {request.user.username} ({ip}) vote on choice {selected_choice}")
                 messages.success(request, "You voted successfully🥳")
             else:
+                logger.info(f"User {request.user.username} ({ip}) update his answer to {selected_choice}")
                 messages.success(request, "You updated your vote🥳")
 
             return redirect("polls:results", question_id)
@@ -127,3 +137,13 @@ def vote(request, question_id):
     else:
         messages.error(request, "Invalid request method.")
         return redirect("polls:index")
+    
+
+# https://stackoverflow.com/questions/4581789/how-do-i-get-user-ip-address-in-django
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

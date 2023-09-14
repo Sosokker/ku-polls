@@ -6,8 +6,8 @@ on the [Django Tutorial project](https://docs.djangoproject.com/en/4.2/intro/tut
 
 ## Install and Run
 ### Run Setup.py Method
-
-Clone this repository and Run `setup.py` to install and run the project
+1. Install [Python 3.11 or later](https://www.python.org/downloads/)
+2. Clone this repository and Run `setup.py` to install and run the project
 
 **Don't forget to answer the question from `setup.py` to setup the project**
 ```bash
