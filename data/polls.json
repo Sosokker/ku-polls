@@ -180,7 +180,7 @@
   "model": "polls.vote",
   "pk": 6,
   "fields": {
-    "choice": 4,
+    "choice": 3,
     "user": 2,
     "question": 2
   }
@@ -237,6 +237,15 @@
     "choice": 3,
     "user": 3,
     "question": 2
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "question": 1,
+    "vote_types": false
   }
 }
 ]

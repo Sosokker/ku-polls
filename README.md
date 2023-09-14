@@ -83,6 +83,7 @@ python -m virtualenv .venv
 |tester2|aa12345678aa|
 |tester3|aa12345678aa|
 |tester4|aa12345678aa|
+|novote |aa12345678aa|
 
 ## Project Documents
 
