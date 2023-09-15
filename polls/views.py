@@ -111,7 +111,7 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
 
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('polls:index')
     template_name = 'registration/signup.html'
 
     def form_valid(self, form):
