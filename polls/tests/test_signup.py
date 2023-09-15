@@ -33,3 +33,13 @@ class SignUpTestCase(TestCase):
         response = self.client.post(signup_url, data)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username='').exists())
+
+    def test_redirect_after_complete_signup(self):
+        signup_url = reverse("polls:signup")
+        data = {
+            'username': 'tester_signup',
+            'password1': 'testpassword123',
+            'password2': 'testpassword123',
+        }
+        response = self.client.post(signup_url, data)
+        self.assertRedirects(response, reverse("polls:index"))
