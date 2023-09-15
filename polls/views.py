@@ -36,7 +36,7 @@ class IndexView(generic.ListView):
 
             trend_poll_queryset = Question.objects.filter(
                 Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
-            ).order_by("trend_score")[:3]
+            ).order_by("trend_score", "end_date")[:3]
 
             queryset = {'all_poll' : all_poll_queryset,
                         'trend_poll' : trend_poll_queryset,}

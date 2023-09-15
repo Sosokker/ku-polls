@@ -6,8 +6,9 @@
     "question_text": "Python vs C++, which one is better in your opinion?",
     "pub_date": "2023-09-11T06:31:14Z",
     "end_date": "2023-09-29T20:31:49Z",
-    "short_description": "Cool kids have polls",
-    "long_description": "No description provide for this poll.",
+    "short_description": "🐍 vs 🇨 ++",
+    "long_description": "Let them fight.",
+    "trend_score": 60.0,
     "tags": []
   }
 },
@@ -18,8 +19,9 @@
     "question_text": "The chicken and the egg, which came first?",
     "pub_date": "2023-09-11T02:50:04Z",
     "end_date": "2023-10-18T23:50:19Z",
-    "short_description": "Cool kids have polls",
-    "long_description": "No description provide for this poll.",
+    "short_description": "Classic question.",
+    "long_description": "Most biologists state unequivocally that the egg came first. At their most basic level, eggs are just female sex cells. Hard external eggs that can be laid on land (also known as amniotic eggs) were a game changer for vertebrates. Anyway, let select you choice.",
+    "trend_score": 140.0,
     "tags": []
   }
 },
@@ -30,8 +32,9 @@
     "question_text": "So far so good?",
     "pub_date": "2023-08-03T06:50:43Z",
     "end_date": "2023-11-28T19:50:53Z",
-    "short_description": "Cool kids have polls",
-    "long_description": "No description provide for this poll.",
+    "short_description": "If you know, you know.",
+    "long_description": "The sentence where you will hear once every week.",
+    "trend_score": 120.0,
     "tags": []
   }
 },
@@ -42,8 +45,61 @@
     "question_text": "Do you love Django?",
     "pub_date": "2023-09-11T19:51:12Z",
     "end_date": "2023-09-29T17:51:18Z",
-    "short_description": "Cool kids have polls",
-    "long_description": "No description provide for this poll.",
+    "short_description": "Djago, I love it!",
+    "long_description": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.",
+    "trend_score": 120.0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 6,
+  "fields": {
+    "question_text": "Taylor Swift vs Kanye West. Who is better!",
+    "pub_date": "2023-09-15T15:46:58Z",
+    "end_date": "2023-11-30T15:47:01Z",
+    "short_description": "Swifty vs Ye Club",
+    "long_description": "It's no secret that Taylor Swift and Kanye West's relationship can be described as volatile at best. Let choose!",
+    "trend_score": 100.0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 7,
+  "fields": {
+    "question_text": "What is your preferred text editor or IDE for coding?",
+    "pub_date": "2023-09-15T15:49:22Z",
+    "end_date": "2023-11-21T23:00:00Z",
+    "short_description": "Please do my poll🥺",
+    "long_description": "My favorite code editor is VScode. What about you?",
+    "trend_score": 100.0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 8,
+  "fields": {
+    "question_text": "Which one is the best RIZZ line?",
+    "pub_date": "2023-09-14T15:52:03Z",
+    "end_date": "2023-11-14T17:00:00Z",
+    "short_description": "RIZZ (noun) How good you are with flirting",
+    "long_description": "Rizz actually comes from the word charisma. It's a NYC Slang created by a twitch streamer named Kai cenat. This means that you have game, a good flirt line.",
+    "trend_score": 100.0,
+    "tags": []
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 9,
+  "fields": {
+    "question_text": "What is the best pizza topping?",
+    "pub_date": "2023-09-15T16:10:02Z",
+    "end_date": "2023-12-31T05:00:00Z",
+    "short_description": "Pizza without topping is not pizza!",
+    "long_description": "I mean, Yeah here are the choices ;)",
+    "trend_score": 100.0,
     "tags": []
   }
 },
@@ -117,6 +173,198 @@
   "fields": {
     "question": 4,
     "choice_text": "No comment."
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 10,
+  "fields": {
+    "question": 6,
+    "choice_text": "Kanye"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 11,
+  "fields": {
+    "question": 6,
+    "choice_text": "Taylor Swift"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 12,
+  "fields": {
+    "question": 6,
+    "choice_text": "Neither"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 13,
+  "fields": {
+    "question": 6,
+    "choice_text": "Both!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 14,
+  "fields": {
+    "question": 6,
+    "choice_text": "No Opinion"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 15,
+  "fields": {
+    "question": 7,
+    "choice_text": "VScode"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 16,
+  "fields": {
+    "question": 7,
+    "choice_text": "IntelliJ IDEA"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 17,
+  "fields": {
+    "question": 7,
+    "choice_text": "Vim"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 18,
+  "fields": {
+    "question": 7,
+    "choice_text": "Emacs"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 19,
+  "fields": {
+    "question": 7,
+    "choice_text": "Eclipse"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 20,
+  "fields": {
+    "question": 8,
+    "choice_text": "Let me be your CSS to your HTML"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 21,
+  "fields": {
+    "question": 8,
+    "choice_text": "Are you my grade? Because Im nervous everytime Im about to see you"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 22,
+  "fields": {
+    "question": 8,
+    "choice_text": "If being beautiful was a crime, you’d be on the most wanted list."
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 23,
+  "fields": {
+    "question": 8,
+    "choice_text": "You look like mom! Mom of our son."
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 24,
+  "fields": {
+    "question": 8,
+    "choice_text": "Are you from Tennessee cuz u the only ten I see"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 25,
+  "fields": {
+    "question": 8,
+    "choice_text": "Ouch i skinned my knee! because I fall for you"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 26,
+  "fields": {
+    "question": 8,
+    "choice_text": "Are you semicolon!! cause you alway make me complete."
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 27,
+  "fields": {
+    "question": 8,
+    "choice_text": "Roses are red, Violets are blue, Something smells is that you!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 28,
+  "fields": {
+    "question": 9,
+    "choice_text": "Pineapples"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 29,
+  "fields": {
+    "question": 9,
+    "choice_text": "Orange"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 30,
+  "fields": {
+    "question": 9,
+    "choice_text": "Banana"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 31,
+  "fields": {
+    "question": 8,
+    "choice_text": "What is the difference betweeen history and you? History is in the past but you are my future."
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 32,
+  "fields": {
+    "question": 1,
+    "choice_text": "Use both!"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 33,
+  "fields": {
+    "question": 2,
+    "choice_text": "Dinosaur"
   }
 },
 {
@@ -255,6 +503,114 @@
   }
 },
 {
+  "model": "polls.vote",
+  "pk": 16,
+  "fields": {
+    "choice": 9,
+    "user": 1,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 17,
+  "fields": {
+    "choice": 6,
+    "user": 1,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 18,
+  "fields": {
+    "choice": 25,
+    "user": 2,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 19,
+  "fields": {
+    "choice": 15,
+    "user": 2,
+    "question": 7
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 20,
+  "fields": {
+    "choice": 24,
+    "user": 4,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 21,
+  "fields": {
+    "choice": 25,
+    "user": 3,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 22,
+  "fields": {
+    "choice": 14,
+    "user": 3,
+    "question": 6
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 23,
+  "fields": {
+    "choice": 28,
+    "user": 3,
+    "question": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 24,
+  "fields": {
+    "choice": 27,
+    "user": 6,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 25,
+  "fields": {
+    "choice": 15,
+    "user": 6,
+    "question": 7
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 26,
+  "fields": {
+    "choice": 29,
+    "user": 6,
+    "question": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 27,
+  "fields": {
+    "choice": 26,
+    "user": 1,
+    "question": 8
+  }
+},
+{
   "model": "polls.sentimentvote",
   "pk": 1,
   "fields": {
@@ -359,6 +715,114 @@
   "fields": {
     "user": 3,
     "question": 2,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 14,
+  "fields": {
+    "user": 1,
+    "question": 4,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 15,
+  "fields": {
+    "user": 1,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 16,
+  "fields": {
+    "user": 1,
+    "question": 2,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 17,
+  "fields": {
+    "user": 2,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 18,
+  "fields": {
+    "user": 2,
+    "question": 7,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 19,
+  "fields": {
+    "user": 4,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 20,
+  "fields": {
+    "user": 3,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 21,
+  "fields": {
+    "user": 3,
+    "question": 6,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 22,
+  "fields": {
+    "user": 3,
+    "question": 9,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 23,
+  "fields": {
+    "user": 6,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 24,
+  "fields": {
+    "user": 6,
+    "question": 9,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 25,
+  "fields": {
+    "user": 1,
+    "question": 8,
     "vote_types": true
   }
 }
