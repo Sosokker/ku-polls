@@ -12,7 +12,7 @@ class QuestionIndexViewTests(TestCase):
         """
         response = self.client.get(reverse("polls:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertQuerySetEqual(response.context["latest_question_list"], [])
+        self.assertQuerySetEqual(response.context["latest_question_list"]["all_poll"], [])
 
     def test_past_question(self):
         """
@@ -24,7 +24,7 @@ class QuestionIndexViewTests(TestCase):
         question.save()
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
-            response.context["latest_question_list"],
+            response.context["latest_question_list"]["all_poll"],
             [question],
         )
 
@@ -37,7 +37,7 @@ class QuestionIndexViewTests(TestCase):
         future_question.pub_date = timezone.now() + timezone.timedelta(days=30)
         future_question.save()
         response = self.client.get(reverse("polls:index"))
-        self.assertQuerySetEqual(response.context["latest_question_list"], [])
+        self.assertQuerySetEqual(response.context["latest_question_list"]["all_poll"], [])
 
     def test_future_question_and_past_question(self):
         """
@@ -54,7 +54,7 @@ class QuestionIndexViewTests(TestCase):
 
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
-            response.context["latest_question_list"],
+            response.context["latest_question_list"]["all_poll"],
             [past_question],
         )
 
@@ -72,6 +72,6 @@ class QuestionIndexViewTests(TestCase):
 
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
-            response.context["latest_question_list"],
+            response.context["latest_question_list"]["all_poll"],
             [question2, question1],
         )

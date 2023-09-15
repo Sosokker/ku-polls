@@ -83,7 +83,7 @@
         <h2 class="text-2xl font-bold bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent lg:inline">Top Polls Today</h2>
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-400" />
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {% for question in latest_question_list %}
+          {% for question in latest_question_list.trend_poll %}
           <div class="relative">
             <!-- INFO -->
             <div class="rounded-lg bg-white p-4 shadow-md border-solid border-2 border-yellow-500 relative z-10 transform translate-y-0 hover:translate-y-1 transition-transform">
@@ -129,7 +129,7 @@
         <h2 class="mb-4 text-2xl font-bold">All Polls</h2>
         <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-400" />
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-          {% for question in latest_question_list %}
+          {% for question in latest_question_list.all_poll %}
           <div class="relative">
             <!-- INFO -->
             <div class="rounded-lg bg-white p-4 shadow-md border-solid border-2 border-neutral-500 relative z-10 transform translate-y-0 hover:translate-y-1 transition-transform">

@@ -46,6 +46,7 @@ class Question(models.Model):
     end_date = models.DateTimeField("date ended", null=True)
     short_description = models.CharField(max_length=200, default="Cool kids have polls")
     long_description = models.TextField(max_length=2000, default="No description provide for this poll.")
+    trend_score = models.FloatField(default=0.0, null=False, blank=False)
     tags = models.ManyToManyField(Tag, blank=True)
 
     def was_published_recently(self):
@@ -157,6 +158,9 @@ class Question(models.Model):
 
     # ! Most of the code from https://stackoverflow.com/a/70869267
     def upvote(self, user):
+        """create new SentimentVote object that represent upvote (vote_types=True)
+        return True if user change the vote or vote for the first time else return False
+        """
         try:
             self.sentimentvote_set.create(user=user, question=self, vote_types=True)
             self.save()
@@ -170,6 +174,9 @@ class Question(models.Model):
         return True
 
     def downvote(self, user):
+        """create new SentimentVote object that represent downvote (vote_types=False)
+        return True if user change the vote or vote for the first time else return False
+        """
         try:
             self.sentimentvote_set.create(user=user, question=self, vote_types=False)
             self.save()
@@ -189,6 +196,38 @@ class Question(models.Model):
     @property
     def down_vote_count(self):
         return self.sentimentvote_set.filter(question=self, vote_types=False).count()
+
+    def trending_score(self, up=None, down=None):
+        """Return trend score base on the criteria below"""
+        published_date_duration = timezone.now() - self.pub_date
+        score = 0
+
+        if (published_date_duration.seconds  < 259200): # Second unit
+                score += 100
+        elif (published_date_duration.seconds < 604800):
+            score += 75
+        elif (published_date_duration.seconds < 2592000):
+            score += 50
+        else:
+            score += 25
+
+        if (up == None) and (down == None):
+            score += ((self.up_vote_count/5) - (self.down_vote_count/5)) * 100
+        else:
+            score += ((up/5) - (down/5)) * 100
+
+        return score
+
+
+    def save(self, *args, **kwargs):
+        """Modify save method of Question object"""
+        # to-be-added instance # * https://github.com/django/django/blob/866122690dbe233c054d06f6afbc2f3cc6aea2f2/django/db/models/base.py#L447
+        if self._state.adding:
+            try:
+                self.trend_score = self.trending_score()
+            except ValueError:
+                self.trend_score = self.trending_score(up=0, down=0)
+        super(Question, self).save(*args, **kwargs)
 
 
 class Choice(models.Model):
@@ -228,9 +267,25 @@ class Vote(models.Model):
 
 # ! Most of the code from https://stackoverflow.com/a/70869267
 class SentimentVote(models.Model):
+    """
+    Represents a sentiment vote for a poll question.
+
+    Attributes:
+        user (User): The user who cast the sentiment vote.
+        question (Question): The poll question for which the sentiment vote is cast.
+        vote_types (bool): Indicates whether the sentiment vote is an upvote (True) or a downvote (False).
+
+    Note:
+        - When 'vote_types' is True, it represents an upvote or 'Like'.
+        - When 'vote_types' is False, it represents a downvote or 'Dislike'.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     vote_types = models.BooleanField()
 
     class Meta:
+        """
+        unique_together (list of str): Ensures that a user can only cast one sentiment vote (upvote or downvote)
+        for a specific question.
+        """
         unique_together = ['user', 'question']
