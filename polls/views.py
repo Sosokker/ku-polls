@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
@@ -29,9 +30,17 @@ class IndexView(generic.ListView):
             Return the last published questions that is published and haven't ended yet.
             """
             now = timezone.now()
-            return Question.objects.filter(
+            all_poll_queryset = Question.objects.filter(
                 Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
             ).order_by("-pub_date")
+
+            trend_poll_queryset = Question.objects.filter(
+                Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
+            ).order_by("trend_score")[:3]
+
+            queryset = {'all_poll' : all_poll_queryset,
+                        'trend_poll' : trend_poll_queryset,}
+            return queryset
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -104,6 +113,13 @@ class SignUpView(generic.CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        valid = super(SignUpView, self).form_valid(form)
+        username, password = form.cleaned_data.get("username"), form.cleaned_data.get("password1")
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        return valid
 
 
 @login_required
