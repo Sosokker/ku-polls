@@ -118,20 +118,12 @@ def main():
             subprocess.run([activate_command], shell=True)
             
             python_command = os.path.join(".venv", "bin", "python") if is_posix else os.path.join(".venv", "Scripts", "python")
-            subprocess.run([python_command, "-m", "pip", "install", "-r", "requirements.txt"])
-
-            secret_key = subprocess.check_output([python_command, "manage.py", "shell", "-c",
-                                                'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())']).decode().strip()
-
-            start_server = input("Do you want to start the Django server? (yes/no): ").lower()
-            if start_server == "yes":
-                print("=================================================")
-                print("Django run in --insecure mode to load Static File")
-                print("==================================================")
-                subprocess.run([python_command, "manage.py", "runserver", "--insecure"])
         else:
             print("Not setting up a virtual environment. Using the global Python interpreter.")
 
+        subprocess.run([python_command, "-m", "pip", "install", "-r", "requirements.txt"])
+        secret_key = subprocess.check_output([python_command, "manage.py", "shell", "-c",
+                                            'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())']).decode().strip()
 
         with open(".env", "w") as env_file:
             env_file.write(f"""SECRET_KEY={secret_key}
@@ -145,6 +137,12 @@ def main():
         subprocess.run([python_command, "manage.py", "loaddata", "data/users.json"])
         subprocess.run([python_command, "manage.py", "loaddata", "data/polls.json"])
 
+        start_server = input("Do you want to start the Django server? (yes/no): ").lower()
+        if start_server == "yes":
+            print("=================================================")
+            print("Django run in --insecure mode to load Static File")
+            print("==================================================")
+            subprocess.run([python_command, "manage.py", "runserver", "--insecure"])
     else:
         try:
             print("==========================Custom Mode==========================")
