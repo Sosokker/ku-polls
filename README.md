@@ -5,7 +5,7 @@ An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/4.2/intro/tutorial01/), with additional features.
 
 ## Install and Run
-### Run Setup.py Method
+### Run Setup.py (Recommended)
 1. Install [Python 3.11 or later](https://www.python.org/downloads/)
 2. Clone this repository and Run `setup.py` to install and run the project
 
@@ -15,12 +15,15 @@ git clone https://github.com/Sosokker/ku-polls
 cd ku-polls
 python setup.py
 ```
-
+If you want to customize the environment variables, name of environment folder then run this command
+```bash
+python setup.py -custom
+```
 or run `setup.ps1` (For Windows User)
 
 ----
 
-### Manual
+### Manual Installation (If the above method doesn't work)
 1. Install [Python 3.11 or later](https://www.python.org/downloads/)
 2. Run these commands to clone and install requirements.txt
 ```bash
