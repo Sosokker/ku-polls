@@ -18,6 +18,8 @@ if (-not (Test-Path .venv)) {
     Write-Host "Using existing virtual environment."
 }
 
+$python_in_venv = ".\.venv\Scripts\python"
+
 if ($setup_venv -eq "yes") {
     if (-not (Test-Path (Get-Command virtualenv -ErrorAction SilentlyContinue))) {
         Write-Host "Error: virtualenv is not installed. Please install it and rerun this script."
@@ -28,7 +30,11 @@ if ($setup_venv -eq "yes") {
     .\.venv\Scripts\Activate
 }
 
-python -m pip install -r requirements.txt
+# Now, use the Python interpreter within the virtual environment for subsequent commands.
+$python_in_venv = ".\.venv\Scripts\python"
+
+# For example:
+& $python_in_venv -m pip install -r requirements.txt
 
 $secret_key = (python manage.py shell -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')
 @"
