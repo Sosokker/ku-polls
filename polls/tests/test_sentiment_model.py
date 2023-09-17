@@ -2,7 +2,7 @@ from django.test import TransactionTestCase, Client
 from django.contrib.auth.models import User
 
 from .base import create_question
-from ..views import up_down_vote
+
 
 # ! https://stackoverflow.com/questions/24588520/testing-several-integrityerrors-in-the-same-django-unittest-test-case
 # * https://stackoverflow.com/questions/44450533/difference-between-testcase-and-transactiontestcase-classes-in-django-test
@@ -32,7 +32,7 @@ class UpDownVoteViewTest(TransactionTestCase):
         self.assertEqual(count_up, 0)
         self.assertEqual(count_down, 1)
 
-    def test_can_change_up_to_down(self):
+    def test_can_change_down_to_up(self):
         self.client.login(username="test_user", password="12345abc")
         self.q1.downvote(self.user)
         self.q1.upvote(self.user)

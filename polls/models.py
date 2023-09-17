@@ -12,7 +12,6 @@ Attributes:
 from django.db import models, IntegrityError
 from django.utils import timezone
 from django.contrib import admin
-from django.db.models import Sum
 from django.contrib.auth.models import User
 
 
@@ -23,7 +22,7 @@ class Tag(models.Model):
     tag_text = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.tag_text
 
 
 class Question(models.Model):
@@ -128,6 +127,7 @@ class Question(models.Model):
 
     @property
     def time_left(self):
+        """Return time till ending of the poll"""
         return self.calculate_time_left()
 
     def calculate_vote_percentage(self):
@@ -143,10 +143,12 @@ class Question(models.Model):
 
     @property
     def up_vote_percentage(self):
+        """Retrieve up vote percentage from calculate_vote_percentage"""
         return self.calculate_vote_percentage()[0]
 
     @property
     def down_vote_percentage(self):
+        """Retrieve down vote percentage from calculate_vote_percentage"""
         return self.calculate_vote_percentage()[1]
 
     @property
@@ -166,7 +168,7 @@ class Question(models.Model):
             self.save()
         except IntegrityError:
             vote = self.sentimentvote_set.filter(user=user)
-            if vote[0].vote_types == False:
+            if vote[0].vote_types is False:
                 vote.update(vote_types=True)
                 self.save()
             else:
@@ -182,7 +184,7 @@ class Question(models.Model):
             self.save()
         except IntegrityError:
             vote = self.sentimentvote_set.filter(user=user)
-            if vote[0].vote_types == True:
+            if vote[0].vote_types is True:
                 vote.update(vote_types=False)
                 self.save()
             else:
@@ -191,10 +193,12 @@ class Question(models.Model):
 
     @property
     def up_vote_count(self):
+        """Count up vote of Question"""
         return self.sentimentvote_set.filter(question=self, vote_types=True).count()
 
     @property
     def down_vote_count(self):
+        """Count down vote of Question"""
         return self.sentimentvote_set.filter(question=self, vote_types=False).count()
 
     def trending_score(self, up=None, down=None):
@@ -202,8 +206,8 @@ class Question(models.Model):
         published_date_duration = timezone.now() - self.pub_date
         score = 0
 
-        if (published_date_duration.seconds  < 259200): # Second unit
-                score += 100
+        if (published_date_duration.seconds < 259200):  # Second unit
+            score += 100
         elif (published_date_duration.seconds < 604800):
             score += 75
         elif (published_date_duration.seconds < 2592000):
@@ -211,17 +215,20 @@ class Question(models.Model):
         else:
             score += 25
 
-        if (up == None) and (down == None):
+        if (up is None) and (down is None):
             score += ((self.up_vote_count/5) - (self.down_vote_count/5)) * 100
         else:
             score += ((up/5) - (down/5)) * 100
 
         return score
 
+    def get_tags(self, *args, **kwargs):
+        return "-".join([tag.tag_text for tag in self.tags.all()])
 
     def save(self, *args, **kwargs):
         """Modify save method of Question object"""
-        # to-be-added instance # * https://github.com/django/django/blob/866122690dbe233c054d06f6afbc2f3cc6aea2f2/django/db/models/base.py#L447
+        # to-be-added instance
+        # * https://github.com/django/django/blob/866122690dbe233c054d06f6afbc2f3cc6aea2f2/django/db/models/base.py#L447
         if self._state.adding:
             try:
                 self.trend_score = self.trending_score()
@@ -263,7 +270,7 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"{self.user} voted for {self.choice} in {self.question}"
-    
+
 
 # ! Most of the code from https://stackoverflow.com/a/70869267
 class SentimentVote(models.Model):

@@ -2,7 +2,6 @@ import logging
 from typing import Any
 
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.urls import reverse_lazy, reverse
@@ -12,7 +11,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from .forms import SignUpForm
+from .forms import SignUpForm, PollSearchForm, PollCreateForm
 from .models import Choice, Question, Vote
 
 
@@ -26,21 +25,21 @@ class IndexView(generic.ListView):
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
-            """
-            Return the last published questions that is published and haven't ended yet.
-            """
-            now = timezone.now()
-            all_poll_queryset = Question.objects.filter(
-                Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
-            ).order_by("-pub_date")
+        """
+        Return the last published questions that is published and haven't ended yet.
+        """
+        now = timezone.now()
+        all_poll_queryset = Question.objects.filter(
+            Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
+        ).order_by("-pub_date")
 
-            trend_poll_queryset = Question.objects.filter(
-                Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
-            ).order_by("trend_score", "end_date")[:3]
+        trend_poll_queryset = Question.objects.filter(
+            Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
+        ).order_by("trend_score")[:3]
 
-            queryset = {'all_poll' : all_poll_queryset,
-                        'trend_poll' : trend_poll_queryset,}
-            return queryset
+        queryset = {'all_poll': all_poll_queryset,
+                    'trend_poll': trend_poll_queryset, }
+        return queryset
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -93,12 +92,16 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class ResultsView(LoginRequiredMixin, generic.DetailView):
+    """
+    Provide a view for Result page, a Result for the poll contain poll participants
+    number and other statistic such as up, down vote
+    """
     model = Question
     template_name = "polls/results.html"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-    
+
         user_voted = None
         question = self.get_object()
         if question.sentimentvote_set.filter(user=self.request.user, question=question, vote_types=True).exists():
@@ -109,7 +112,11 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
         context['user_voted'] = user_voted
         return context
 
+
 class SignUpView(generic.CreateView):
+    """
+    View that responsible for Sign Up page.
+    """
     form_class = SignUpForm
     success_url = reverse_lazy('polls:index')
     template_name = 'registration/signup.html'
@@ -146,7 +153,7 @@ def vote(request, question_id):
             vote, created = Vote.objects.update_or_create(
                 user=request.user,
                 question=question,
-                defaults={'choice' : selected_choice}
+                defaults={'choice': selected_choice}
             )
 
             if created:
@@ -163,13 +170,15 @@ def vote(request, question_id):
     else:
         messages.error(request, "Invalid request method.")
         return redirect("polls:index")
-    
+
 
 @login_required
 def up_down_vote(request, question_id, vote_type):
-    ip = get_client_ip(request)
+    """
+    A function that control the upvote and downvote request.
+    """
     question = get_object_or_404(Question, pk=question_id)
-    
+
     if request.method == "POST":
         if vote_type == "upvote":
             if question.upvote(request.user):
@@ -177,15 +186,76 @@ def up_down_vote(request, question_id, vote_type):
         elif vote_type == "downvote":
             if question.downvote(request.user):
                 messages.success(request, "You downvoted this Poll😭")
-    
+
     return redirect(reverse("polls:results", args=(question_id,)))
 
 
 # https://stackoverflow.com/questions/4581789/how-do-i-get-user-ip-address-in-django
 def get_client_ip(request):
+    """
+    Use with logger to get ip of user.
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def search_poll(request):
+    """
+    A function that handle the rendering of search result after user search with
+    search bar.
+    """
+    form = PollSearchForm
+
+    results = []
+    q = ''
+    if 'q' in request.GET:
+        form = PollSearchForm(request.GET)
+        if form.is_valid():
+            q = form.cleaned_data['q']
+            # Case insensitive (icontains)
+            results = Question.objects.filter(question_text__icontains=q)
+    # * If user search with empty string then show every poll.
+    if q == '':
+        results = Question.objects.all()
+    return render(request, 'polls/search.html', {'form': form, 'results': results, 'q': q})
+
+
+@login_required
+def create_poll(request):
+    ip = get_client_ip(request)
+    if request.method == 'POST':
+        form = PollCreateForm(request.POST)
+        if form.is_valid():
+            question_text = form.cleaned_data['question_text']
+            pub_date = form.cleaned_data['pub_date']
+            end_date = form.cleaned_data['end_date']
+            short_description = form.cleaned_data['short_description']
+            long_description = form.cleaned_data.get('long_description', '')
+            user_choices = form.cleaned_data['user_choice']
+            tags = form.cleaned_data['tags']
+
+            question = Question.objects.create(
+                question_text=question_text,
+                pub_date=pub_date,
+                end_date=end_date,
+                short_description=short_description,
+                long_description=long_description,
+            )
+
+            choices = user_choices.split(',')  # Split with comma
+            for choice_text in choices:
+                Choice.objects.create(question=question, choice_text=choice_text.strip())
+
+            # Add  tags to the question
+            question.tags.set(tags)
+            logger.info(f"User {request.user.username} ({ip}) create poll : {question_text}")
+            return redirect('polls:index')
+
+    else:
+        form = PollCreateForm()
+
+    return render(request, 'polls/creation.html', {'form': form})

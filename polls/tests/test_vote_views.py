@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .base import create_question
 from ..models import Vote, Choice
 
+
 class VoteViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -20,9 +21,9 @@ class VoteViewTest(TestCase):
         """
         self.client.login(username=self.user.username, password="aaa123321aaa")
 
-        response = self.client.post(reverse("polls:vote", args=(self.question.id,)), 
-                                    {'choice' : self.choice1.id})
-        
+        response = self.client.post(reverse("polls:vote", args=(self.question.id,)),
+                                    {'choice': self.choice1.id})
+
         self.assertRedirects(response, reverse("polls:results", args=(self.question.id,)))
         self.assertTrue(Vote.objects.filter(user=self.user, question=self.question).exists())
 
@@ -32,18 +33,18 @@ class VoteViewTest(TestCase):
         """
         self.client.login(username=self.user.username, password="aaa123321aaa")
 
-        response = self.client.post(reverse("polls:vote", args=(self.question.id,)), 
-                                    {'choice' : 1000})
-        
+        response = self.client.post(reverse("polls:vote", args=(self.question.id,)),
+                                    {'choice': 1000})
+
         self.assertRedirects(response, reverse('polls:detail', args=(self.question.id,)))
 
     def test_vote_without_login(self):
         """
         Test the vote view when the user is not logged in.
         """
-        response = self.client.post(reverse("polls:vote", args=(self.question.id,)), 
-                                    {'choice' : self.choice1})
-        
+        response = self.client.post(reverse("polls:vote", args=(self.question.id,)),
+                                    {'choice': self.choice1})
+
         self.assertRedirects(response, "/accounts/login/?next=/polls/1/vote/")
 
     def test_vote_voting_not_allowed(self):
@@ -55,9 +56,8 @@ class VoteViewTest(TestCase):
         self.question_2 = create_question(question_text="Test not allow", day=10)
         self.choice_2 = Choice.objects.create(question=self.question_2, choice_text="Test Choice 2_2")
 
-        response = self.client.post(reverse("polls:vote", args=(self.question_2.id,)),
-                                            {"choice" : self.choice_2.id})
-        
+        response = self.client.post(reverse("polls:vote", args=(self.question_2.id,)), {"choice": self.choice_2.id})
+
         self.assertRedirects(response, reverse('polls:index'))
 
     def test_vote_with_no_post_data(self):
@@ -81,6 +81,6 @@ class VoteViewTest(TestCase):
 
         response_2 = self.client.post(reverse("polls:vote", args=(self.question.id,)), {"choice": self.choice2.id})
         self.assertRedirects(response_2, reverse('polls:results', args=(self.question.id,)))
-        
+
         self.assertFalse(Vote.objects.filter(user=self.user, question=self.question, choice=self.choice1).exists())
         self.assertTrue(Vote.objects.filter(user=self.user, question=self.question, choice=self.choice2).exists())

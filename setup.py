@@ -17,7 +17,7 @@ def check_python_command():
             return command
         except FileNotFoundError:
             continue
-    
+
     return None
 
 def create_virtual_environment(env_name, python_command):
@@ -31,7 +31,7 @@ def customize_virtual_environment():
 
 def setup_environment_variables(python_command_in_venv):
     print("Setting up Django environment variables:")
-    
+
     # SECRET KEY
     generate_secret_key = input("Generate a Django SECRET_KEY? (yes/no): ").strip().lower()
     if generate_secret_key == "yes":
@@ -39,7 +39,7 @@ def setup_environment_variables(python_command_in_venv):
                                              'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())']).decode().strip()
     else:
         secret_key = input("Enter Django SECRET_KEY: ").strip()
-    
+
     # DEBUG MODE
     while True:
         debug_mode = input("Enable DEBUG mode? (True/False): ").strip()
@@ -52,7 +52,7 @@ def setup_environment_variables(python_command_in_venv):
     allowed_hosts = input("Enter ALLOWED_HOSTS (comma-separated, or press Enter for default): ").strip()
     if not allowed_hosts:
         allowed_hosts = "*.ku.th,localhost,127.0.0.1,::1"
-    
+
     # TZ
     available_time_zones = ["Asia/Bangkok", "Japan", "UCT", "CST6CDT", "Custom"]
     
@@ -73,7 +73,7 @@ def setup_environment_variables(python_command_in_venv):
                 print("Invalid choice. Please enter a valid number.")
         except ValueError:
             print("Invalid input. Please enter a valid number.")
-    
+
     email_host_password = input("Enter EMAIL_HOST_PASSWORD: ").strip()
 
     # SET
@@ -116,7 +116,7 @@ def main():
             elif is_windows:
                 activate_command = os.path.join(".venv", "Scripts", "activate")
             subprocess.run([activate_command], shell=True)
-            
+
             python_command = os.path.join(".venv", "bin", "python") if is_posix else os.path.join(".venv", "Scripts", "python")
         else:
             print("Not setting up a virtual environment. Using the global Python interpreter.")
@@ -136,6 +136,7 @@ def main():
         subprocess.run([python_command, "manage.py", "migrate"])
         subprocess.run([python_command, "manage.py", "loaddata", "data/users.json"])
         subprocess.run([python_command, "manage.py", "loaddata", "data/polls.json"])
+        subprocess.run([python_command, "manage.py", "loaddata", "data/vote.json"])
 
         start_server = input("Do you want to start the Django server? (yes/no): ").lower()
         if start_server == "yes":
@@ -154,25 +155,27 @@ def main():
             print(f"==========================Install Requirement==========================")
             subprocess.run([python_command_in_venv, "-m", "pip", "install", "-r", "requirements.txt"])
             setup_environment_variables(python_command_in_venv)
-            
+
             subprocess.run([python_command_in_venv, "-m", "pip", "install", "-r", "requirements.txt"], check=True)
             subprocess.run([python_command_in_venv, "manage.py", "migrate"], check=True)
             subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/users.json"], check=True)
             subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/polls.json"], check=True)
-            
+            subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/vote.json"], check=True)
+
             start_server = input("Do you want to start the Django server? (yes/no): ").strip().lower()
             if start_server == "yes":
                 print("=================================================")
                 print("Django run in --insecure mode to load Static File")
                 print("==================================================")
                 subprocess.run([python_command_in_venv, "manage.py", "runserver", "--insecure"], check=True)
-            
+
         except subprocess.CalledProcessError as e:
             print(f"Error: {e}")
             sys.exit(1)
         except KeyboardInterrupt:
             print("\nSetup process aborted.")
             sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

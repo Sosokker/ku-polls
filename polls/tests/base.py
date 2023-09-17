@@ -1,7 +1,6 @@
 from django.utils import timezone
-from django.contrib.auth.models import User
 
-from ..models import Question, Vote, Choice
+from ..models import Question
 
 
 def create_question(question_text, day=0):

@@ -1,5 +1,47 @@
 [
 {
+  "model": "polls.tag",
+  "pk": 4,
+  "fields": {
+    "tag_text": "Food"
+  }
+},
+{
+  "model": "polls.tag",
+  "pk": 5,
+  "fields": {
+    "tag_text": "Flirt"
+  }
+},
+{
+  "model": "polls.tag",
+  "pk": 6,
+  "fields": {
+    "tag_text": "Meme"
+  }
+},
+{
+  "model": "polls.tag",
+  "pk": 7,
+  "fields": {
+    "tag_text": "Programming"
+  }
+},
+{
+  "model": "polls.tag",
+  "pk": 8,
+  "fields": {
+    "tag_text": "Singer"
+  }
+},
+{
+  "model": "polls.tag",
+  "pk": 9,
+  "fields": {
+    "tag_text": "Education"
+  }
+},
+{
   "model": "polls.question",
   "pk": 1,
   "fields": {
@@ -600,45 +642,624 @@
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
+  "pk": 1,
+  "fields": {
+    "choice": 1,
+    "user": 1,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 2,
+  "fields": {
+    "choice": 1,
+    "user": 3,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 3,
+  "fields": {
+    "choice": 2,
+    "user": 2,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
   "pk": 4,
   "fields": {
-    "tag_text": "Food"
+    "choice": 7,
+    "user": 2,
+    "question": 4
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
   "pk": 5,
   "fields": {
-    "tag_text": "Flirt"
+    "choice": 6,
+    "user": 2,
+    "question": 3
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
   "pk": 6,
   "fields": {
-    "tag_text": "Meme"
+    "choice": 3,
+    "user": 2,
+    "question": 2
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
   "pk": 7,
   "fields": {
-    "tag_text": "Programming"
+    "choice": 8,
+    "user": 4,
+    "question": 4
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
   "pk": 8,
   "fields": {
-    "tag_text": "Singer"
+    "choice": 6,
+    "user": 4,
+    "question": 3
   }
 },
 {
-  "model": "polls.tag",
+  "model": "polls.vote",
   "pk": 9,
   "fields": {
-    "tag_text": "Education"
+    "choice": 3,
+    "user": 4,
+    "question": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 10,
+  "fields": {
+    "choice": 2,
+    "user": 4,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 11,
+  "fields": {
+    "choice": 6,
+    "user": 3,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 12,
+  "fields": {
+    "choice": 3,
+    "user": 3,
+    "question": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 13,
+  "fields": {
+    "choice": 6,
+    "user": 6,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 14,
+  "fields": {
+    "choice": 7,
+    "user": 3,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 15,
+  "fields": {
+    "choice": 2,
+    "user": 6,
+    "question": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 16,
+  "fields": {
+    "choice": 9,
+    "user": 1,
+    "question": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 17,
+  "fields": {
+    "choice": 6,
+    "user": 1,
+    "question": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 18,
+  "fields": {
+    "choice": 25,
+    "user": 2,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 19,
+  "fields": {
+    "choice": 15,
+    "user": 2,
+    "question": 7
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 20,
+  "fields": {
+    "choice": 24,
+    "user": 4,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 21,
+  "fields": {
+    "choice": 25,
+    "user": 3,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 22,
+  "fields": {
+    "choice": 14,
+    "user": 3,
+    "question": 6
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 23,
+  "fields": {
+    "choice": 28,
+    "user": 3,
+    "question": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 24,
+  "fields": {
+    "choice": 27,
+    "user": 6,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 25,
+  "fields": {
+    "choice": 15,
+    "user": 6,
+    "question": 7
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 26,
+  "fields": {
+    "choice": 29,
+    "user": 6,
+    "question": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 27,
+  "fields": {
+    "choice": 26,
+    "user": 1,
+    "question": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 28,
+  "fields": {
+    "choice": 28,
+    "user": 1,
+    "question": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 29,
+  "fields": {
+    "choice": 12,
+    "user": 1,
+    "question": 6
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "question": 1,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "question": 2,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "question": 4,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "question": 3,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 5,
+  "fields": {
+    "user": 2,
+    "question": 1,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 6,
+  "fields": {
+    "user": 6,
+    "question": 1,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 7,
+  "fields": {
+    "user": 6,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 8,
+  "fields": {
+    "user": 6,
+    "question": 4,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 9,
+  "fields": {
+    "user": 3,
+    "question": 1,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 10,
+  "fields": {
+    "user": 3,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 11,
+  "fields": {
+    "user": 3,
+    "question": 4,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "question": 2,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 14,
+  "fields": {
+    "user": 1,
+    "question": 4,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 15,
+  "fields": {
+    "user": 1,
+    "question": 3,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 16,
+  "fields": {
+    "user": 1,
+    "question": 2,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 17,
+  "fields": {
+    "user": 2,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 18,
+  "fields": {
+    "user": 2,
+    "question": 7,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 19,
+  "fields": {
+    "user": 4,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 20,
+  "fields": {
+    "user": 3,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 21,
+  "fields": {
+    "user": 3,
+    "question": 6,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 22,
+  "fields": {
+    "user": 3,
+    "question": 9,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 23,
+  "fields": {
+    "user": 6,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 24,
+  "fields": {
+    "user": 6,
+    "question": 9,
+    "vote_types": false
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 25,
+  "fields": {
+    "user": 1,
+    "question": 8,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 26,
+  "fields": {
+    "user": 1,
+    "question": 6,
+    "vote_types": true
+  }
+},
+{
+  "model": "polls.sentimentvote",
+  "pk": 27,
+  "fields": {
+    "user": 1,
+    "question": 9,
+    "vote_types": false
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$aDh9a1PXxcXAb8z3YIjAPX$NVH24kt/wMad+0fZcCii738dfojI4vL2ffXOwNRuLz4=",
+    "last_login": "2023-09-17T16:33:12.136Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@email.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-09-11T18:24:20.740Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$quZKLKT8Ec3TQgpdqlCkpX$o+VOOnRDLGf64qjHb239Yvsre74tPkC8hw1qH1un/hk=",
+    "last_login": "2023-09-17T16:07:12.447Z",
+    "is_superuser": false,
+    "username": "tester1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:41:22.592Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1xGp6EDCoaljdTlSdVT1Mn$UID0Woeh8hwW7LtchH+hKzqdKTDeITTxQ/0DGvfG3CY=",
+    "last_login": "2023-09-15T16:36:24.774Z",
+    "is_superuser": false,
+    "username": "tester3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:41:41.209Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$fJJcIwAuIESYwZDBOqBv8t$YEDVCgg/xJOqAOiAdvGvvqgi1jgn1YfYHJE9yx2JWTA=",
+    "last_login": "2023-09-15T16:35:58.248Z",
+    "is_superuser": false,
+    "username": "tester2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:43:25.226Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$aHyU2gjOR6Vfsh3DBMIvQy$PZwRu+rOLc+N15DDguvy29dks6GUiN5YN/4io8b390o=",
+    "last_login": "2023-09-14T14:49:50.765Z",
+    "is_superuser": false,
+    "username": "novote",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-11T19:52:38.130Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5rNKsClojvcsBqzrEmAzy5$XpeAUCrzeLG42H+8o4HBVqifKd0cQuWcEhFax/dxS5M=",
+    "last_login": "2023-09-15T16:37:53.221Z",
+    "is_superuser": false,
+    "username": "tester4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-14T11:37:58.740Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$QL1ktlWKsyyG2IASDFrJTQ$L7vKabykHi4ir3IcCf3qE9tj/TrAyyfQMekQ4xj+s7I=",
+    "last_login": "2023-09-15T17:23:08.479Z",
+    "is_superuser": false,
+    "username": "tester5",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-15T17:23:07.965Z",
+    "groups": [],
+    "user_permissions": []
   }
 }
 ]
