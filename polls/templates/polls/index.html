@@ -90,6 +90,7 @@
               <h2 class="mb-2 text-xl font-bold truncate">{{ question.question_text }}</h2>
               <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-400" />
               <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
+              <!--Up, Down Vote-->
               <div class="mb-2 flex items-center text-gray-600">
                 <span class="mr-2">👍</span>
                 <span>{{ question.up_vote_percentage }}% Upvoted</span>
@@ -97,12 +98,20 @@
                 <span class="ml-4 mr-2">👎</span>
                 <span>{{ question.down_vote_percentage }}% Downvoted</span>
               </div>
-              <!-- Tag / Time -->
+              <!-- Participant, Time -->
               <div class="flex items-center text-gray-600">
                 <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
                 <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participants }} Participants 👤</span>
               </div>
-              <div class="flex items-center text-gray-600 py-4">
+              <!-- Tags-->
+              <div class="flex items-center text-gray-600 pt-2">
+                {% for tag in question.tags.all %}
+                  <span class="mr-2 rounded-md bg-blue-100 px-1 py-1 text-blue-400 text-xs text-black font-bold">{{ tag.tag_text }}</span>
+                {% endfor %}
+              </div>
+              <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-400" />
+              <!--Vote View Button-->
+              <div class="flex items-center text-gray-600">
                 <button
                   onclick="window.location.href='{% url 'polls:detail' question.id %}'"
                   class="mr-2 rounded-md bg-yellow-100 px-2 py-1 text-black font-semibold border-solid border-2 border-yellow-500 hover:bg-yellow-500 transform translate-y-0 hover:translate-y-1 transition-transform">
@@ -136,6 +145,7 @@
               <h2 class="mb-2 text-xl font-semibold truncate">{{ question.question_text }}</h2>
               <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-400" />
               <p class="mb-2 text-gray-600">{{ question.short_description }}</p>
+              <!--Up, Down Vote-->
               <div class="mb-2 flex items-center text-gray-600">
                 <span class="mr-2">👍</span>
                 <span>{{ question.up_vote_percentage }}% Upvoted</span>
@@ -143,12 +153,20 @@
                 <span class="ml-4 mr-2">👎</span>
                 <span>{{ question.down_vote_percentage }}% Downvoted</span>
               </div>
-              <!-- Tag / Time -->
+              <!-- Participant, Time -->
               <div class="flex items-center text-gray-600">
                 <span class="mr-2 rounded-md bg-green-500 px-2 py-1 text-white">🕒 {{ question.time_left }}</span>
                 <span class="mr-2 rounded-md bg-orange-100 px-2 py-1 text-black">{{ question.participants }} Participants 👤</span>
               </div>
-              <div class="flex items-center text-gray-600 py-4">
+              <!-- Tags-->
+              <div class="flex pt-2">
+                {% for tag in question.tags.all %}
+                  <span class="mr-2 rounded-md bg-blue-100 px-1 py-1 text-blue-400 text-xs text-black font-bold">{{ tag.tag_text }}</span>
+                {% endfor %}
+              </div>
+              <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-400" />
+              <!--Vote View Button-->
+              <div class="flex items-center text-gray-600">
                 <button
                   onclick="window.location.href='{% url 'polls:detail' question.id %}'"
                   class="mr-2 rounded-md bg-white px-2 py-1 text-black border-solid border-2 border-black hover:bg-gray-500 transform translate-y-0 hover:translate-y-1 transition-transform">

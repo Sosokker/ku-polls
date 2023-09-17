@@ -223,6 +223,10 @@ class Question(models.Model):
 
         return score
 
+    def get_tags(self, *args, **kwargs):
+        return "-".join([tag.tag_text for tag in self.tags.all()])
+
+
     def save(self, *args, **kwargs):
         """Modify save method of Question object"""
         # to-be-added instance # * https://github.com/django/django/blob/866122690dbe233c054d06f6afbc2f3cc6aea2f2/django/db/models/base.py#L447
@@ -232,9 +236,6 @@ class Question(models.Model):
             except ValueError:
                 self.trend_score = self.trending_score(up=0, down=0)
         super(Question, self).save(*args, **kwargs)
-
-    def get_tags(self, *args, **kwargs):
-        return "-".join([tag.tag_text for tag in self.tags.all()])
 
 
 class Choice(models.Model):
