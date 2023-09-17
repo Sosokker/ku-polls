@@ -136,6 +136,7 @@ def main():
         subprocess.run([python_command, "manage.py", "migrate"])
         subprocess.run([python_command, "manage.py", "loaddata", "data/users.json"])
         subprocess.run([python_command, "manage.py", "loaddata", "data/polls.json"])
+        subprocess.run([python_command, "manage.py", "loaddata", "data/vote.json"])
 
         start_server = input("Do you want to start the Django server? (yes/no): ").lower()
         if start_server == "yes":
