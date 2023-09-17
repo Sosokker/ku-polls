@@ -2,10 +2,11 @@ import logging
 from typing import Any
 
 from django import forms
+from django.apps import apps
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Question, Tag
+from .models import Question
 
 
 class SignUpForm(UserCreationForm):
@@ -68,10 +69,6 @@ class PollCreateForm(forms.ModelForm):
                                        widget=forms.Textarea(
                                             attrs={'class': large_box_style,
                                                    'placeholder': "Long description (Maximum 2000 characters)"}))
-    tags = forms.MultipleChoiceField(
-        choices=[(tag.id, tag.tag_text) for tag in Tag.objects.all()],
-        widget=forms.CheckboxSelectMultiple,
-    )
     user_choice = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Enter a choice'}),
         required=True
@@ -79,6 +76,13 @@ class PollCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        Tag = apps.get_model('polls', 'Tag')
+
+        tags = forms.MultipleChoiceField(
+        choices=[(tag.id, tag.tag_text) for tag in Tag.objects.all()],
+        widget=forms.CheckboxSelectMultiple,
+    )
 
     class Meta:
         model = Question
