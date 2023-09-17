@@ -2,7 +2,6 @@ import logging
 from typing import Any
 
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.urls import reverse_lazy, reverse
@@ -26,21 +25,21 @@ class IndexView(generic.ListView):
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
-            """
-            Return the last published questions that is published and haven't ended yet.
-            """
-            now = timezone.now()
-            all_poll_queryset = Question.objects.filter(
-                Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
-            ).order_by("-pub_date")
+        """
+        Return the last published questions that is published and haven't ended yet.
+        """
+        now = timezone.now()
+        all_poll_queryset = Question.objects.filter(
+            Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
+        ).order_by("-pub_date")
 
-            trend_poll_queryset = Question.objects.filter(
-                Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
-            ).order_by("trend_score", "end_date")[:3]
+        trend_poll_queryset = Question.objects.filter(
+            Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None))) & Q(trend_score__gte=100)
+        ).order_by("trend_score")[:3]
 
-            queryset = {'all_poll' : all_poll_queryset,
-                        'trend_poll' : trend_poll_queryset,}
-            return queryset
+        queryset = {'all_poll': all_poll_queryset,
+                    'trend_poll': trend_poll_queryset, }
+        return queryset
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -102,7 +101,7 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-    
+
         user_voted = None
         question = self.get_object()
         if question.sentimentvote_set.filter(user=self.request.user, question=question, vote_types=True).exists():
@@ -112,6 +111,7 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
 
         context['user_voted'] = user_voted
         return context
+
 
 class SignUpView(generic.CreateView):
     """
@@ -153,7 +153,7 @@ def vote(request, question_id):
             vote, created = Vote.objects.update_or_create(
                 user=request.user,
                 question=question,
-                defaults={'choice' : selected_choice}
+                defaults={'choice': selected_choice}
             )
 
             if created:
@@ -170,16 +170,15 @@ def vote(request, question_id):
     else:
         messages.error(request, "Invalid request method.")
         return redirect("polls:index")
-    
+
 
 @login_required
 def up_down_vote(request, question_id, vote_type):
     """
     A function that control the upvote and downvote request.
     """
-    ip = get_client_ip(request)
     question = get_object_or_404(Question, pk=question_id)
-    
+
     if request.method == "POST":
         if vote_type == "upvote":
             if question.upvote(request.user):
@@ -187,7 +186,7 @@ def up_down_vote(request, question_id, vote_type):
         elif vote_type == "downvote":
             if question.downvote(request.user):
                 messages.success(request, "You downvoted this Poll😭")
-    
+
     return redirect(reverse("polls:results", args=(question_id,)))
 
 
@@ -207,7 +206,7 @@ def get_client_ip(request):
 def search_poll(request):
     """
     A function that handle the rendering of search result after user search with
-    search bar. 
+    search bar.
     """
     form = PollSearchForm
 
@@ -222,7 +221,7 @@ def search_poll(request):
     # * If user search with empty string then show every poll.
     if q == '':
         results = Question.objects.all()
-    return render(request, 'polls/search.html', {'form':form, 'results':results, 'q':q})
+    return render(request, 'polls/search.html', {'form': form, 'results': results, 'q': q})
 
 
 @login_required

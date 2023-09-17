@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 from ..models import Question
-from ..views import search_poll
 
 
 class SearchPollTest(TestCase):
@@ -22,4 +21,3 @@ class SearchPollTest(TestCase):
         data = {'q': ''}
         response = self.client.get(reverse("polls:search_poll"), data)
         self.assertQuerysetEqual(response.context['results'], Question.objects.all())
-
