@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from .forms import SignUpForm, PollSearchForm
+from .forms import SignUpForm, PollSearchForm, PollCreateForm
 from .models import Choice, Question, Vote
 
 
@@ -223,3 +223,40 @@ def search_poll(request):
     if q == '':
         results = Question.objects.all()
     return render(request, 'polls/search.html', {'form':form, 'results':results, 'q':q})
+
+
+@login_required
+def create_poll(request):
+    ip = get_client_ip(request)
+    if request.method == 'POST':
+        form = PollCreateForm(request.POST)
+        if form.is_valid():
+            question_text = form.cleaned_data['question_text']
+            pub_date = form.cleaned_data['pub_date']
+            end_date = form.cleaned_data['end_date']
+            short_description = form.cleaned_data['short_description']
+            long_description = form.cleaned_data.get('long_description', '')
+            user_choices = form.cleaned_data['user_choice']
+            tags = form.cleaned_data['tags']
+
+            question = Question.objects.create(
+                question_text=question_text,
+                pub_date=pub_date,
+                end_date=end_date,
+                short_description=short_description,
+                long_description=long_description,
+            )
+
+            choices = user_choices.split(',')  # Split with comma
+            for choice_text in choices:
+                Choice.objects.create(question=question, choice_text=choice_text.strip())
+
+            # Add  tags to the question
+            question.tags.set(tags)
+            logger.info(f"User {request.user.username} ({ip}) create poll : {question_text}")
+            return redirect('polls:index')
+
+    else:
+        form = PollCreateForm()
+
+    return render(request, 'polls/creation.html', {'form': form})

@@ -1,0 +1,145 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<header>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+</header>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center p-8">
+    <div class="bg-white p-8 shadow-md rounded-md w-full border-solid border-neutral-500 border-2">
+
+        <a href="{% url 'polls:index' %}" class="block text-blue-500 hover:underline mb-4">&lt; Back</a>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.question_text.id_for_label }}">Question</label>
+                {{ form.question_text }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.pub_date.id_for_label }}">Publication Date</label>
+                {{ form.pub_date }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.end_date.id_for_label }}">End Date</label>
+                {{ form.end_date }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.short_description.id_for_label }}">Short Description</label>
+                {{ form.short_description }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.long_description.id_for_label }}">Long Description</label>
+                {{ form.long_description }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Tags</label>
+                {{ form.tags }}
+            </div>
+
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Choice(Seperate by comma)</label>
+                {{ form.user_choice }}
+            </div>
+            {% comment %} <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.user_choice.id_for_label }}">User Choice</label>
+                <div class="flex space-x-2">
+                    <input type="text" id="{{ form.user_choice.id_for_label }}" class="form-input" placeholder="{{ form.user_choice.field.widget.attrs.placeholder }}">
+                    <button type="button" id="add-choice-button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Add</button>
+                </div>
+            </div>
+
+            <div id="user-choices-container" class="mb-4 pb-2">
+            </div> {% endcomment %}
+            
+            <hr class="h-px my-4 bg-neutral-0 border-0 dark:bg-neutral-0" />
+            <!--Create Button-->
+            <a data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="bg-blue-500 text-white font-bold py-2 mt-3 px-4 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 cursor-pointer">Create Poll</a>
+        
+                    <!--Code from https://flowbite.com/docs/components/modal/-->
+            <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-md max-h-full">
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <div class="p-6 text-center">
+                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure to create this poll?</h3>
+                            <button data-modal-hide="popup-modal" type="submit" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                Yes, I'm sure
+                            </button>
+                            <button data-modal-hide="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--Thank you CHATGPT-->
+<!--Thank you CHATGPT-->
+<!--Thank you CHATGPT-->
+{% comment %} <script>
+    const userChoicesContainer = document.getElementById('user-choices-container');
+    const userInput = document.getElementById('{{ form.user_choice.id_for_label }}');
+    const addButton = document.getElementById('add-choice-button');
+
+    // Function to create a new choice element
+    function createChoiceElement(choiceValue) {
+        const choiceElement = document.createElement('div');
+        choiceElement.textContent = choiceValue;
+        choiceElement.className = 'bg-gray-300 p-2 rounded-md';
+
+        // Add a delete button next to the choice
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'bg-red-500 text-white font-bold py-1 px-2 mx-4 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline-red active:bg-red-800';
+        deleteButton.addEventListener('click', function () {
+            // Remove the choice element when the delete button is clicked
+            userChoicesContainer.removeChild(choiceElement);
+        });
+
+        choiceElement.appendChild(deleteButton);
+        return choiceElement;
+    }
+
+    addButton.addEventListener('click', function () {
+        const choiceValue = userInput.value.trim();
+
+        if (choiceValue !== '') {
+            // Create a new choice element
+            const choiceElement = createChoiceElement(choiceValue);
+
+            // Append the choice element to the container
+            userChoicesContainer.appendChild(choiceElement);
+
+            // Clear the user input
+            userInput.value = '';
+        }
+    });
+
+    // Handle delete button clicks using event delegation
+    userChoicesContainer.addEventListener('click', function (event) {
+        if (event.target && event.target.tagName === 'BUTTON' && event.target.textContent === 'Delete') {
+            // Remove the choice element when a delete button is clicked
+            userChoicesContainer.removeChild(event.target.parentNode);
+        }
+    });
+</script> {% endcomment %}
+
+{% endblock content %}

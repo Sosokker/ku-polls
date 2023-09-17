@@ -12,9 +12,6 @@
       </div>
       <!-- Button -->
       <div>
-        {% comment %}
-        <button class="mr-4 rounded-md bg-green-500 px-4 py-2 text-white">New Poll</button>
-        {% endcomment %}
         <div class="flex flex-wrap items-center space-x-2">
           <header class="flex items-center justify-center">
             <div class="flex flex-wrap items-center space-x-2">
@@ -34,9 +31,9 @@
             </div>
           </header>
           {% if user.is_authenticated %}
-          <button class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-green-700 focus:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-green-900">
+          <a href="{% url "polls:create_poll" %}" class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-green-700 focus:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-green-900">
             New Poll
-          </button>
+          </a>
         <a href="{% url 'logout' %}" 
         class="flex items-center whitespace-nowrap rounded-full border border-transparent bg-red-600 px-5 py-2 text-sm font-bold text-white transition duration-150 ease-in-out hover:scale-[101%] hover:bg-red-700 focus:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-neutral-900">
             <span>Sign out <span class="hidden sm:inline-block">😭</span></span>
