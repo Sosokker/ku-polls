@@ -19,7 +19,7 @@
           <header class="flex items-center justify-center">
             <div class="flex flex-wrap items-center space-x-2">
             <!--Searchhhh-->
-            <form class="group relative z-30 flex flex-grow flex-col items-center space-y-2 rounded-lg border-2 border-neutral-700 bg-white p-1 pl-2 text-lg md:flex-row md:space-y-0 md:space-x-1 md:rounded-full">
+            <form action="{% url "polls:search_poll" %}" method="get" class="group relative z-30 flex flex-grow flex-col items-center space-y-2 rounded-lg border-2 border-neutral-700 bg-white p-1 pl-2 text-lg md:flex-row md:space-y-0 md:space-x-1 md:rounded-full">
               <div class="flex w-full items-center rounded-lg bg-neutral-200 py-1 px-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-400 md:rounded-full">
                 <div>🔎</div>
                 <input type="text" name="q" class="font-semibold w-full border-none bg-transparent focus:outline-none focus:ring focus:ring-transparent text-sm">

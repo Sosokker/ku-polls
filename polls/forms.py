@@ -38,3 +38,10 @@ class SignUpForm(UserCreationForm):
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
+
+
+class PollSearchForm(forms.Form):
+    q = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

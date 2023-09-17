@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from .forms import SignUpForm
+from .forms import SignUpForm, PollSearchForm
 from .models import Choice, Question, Vote
 
 
@@ -189,3 +189,17 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def search_poll(request):
+    form = PollSearchForm
+
+    results = []
+    q = ''
+    if 'q' in request.GET:
+        form = PollSearchForm(request.GET)
+        if form.is_valid():
+            q = form.cleaned_data['q']
+            results = Question.objects.filter(question_text__icontains=q)
+    if q == '':
+        results = Question.objects.all()
+    return render(request, 'polls/search.html', {'form':form, 'results':results, 'q':q})
