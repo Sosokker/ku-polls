@@ -62,4 +62,5 @@ Write-Host $bottomBorder
 python manage.py migrate
 python manage.py loaddata data/users.json
 python manage.py loaddata data/polls.json
+python manage.py loaddata data/vote.json
 python manage.py runserver --insecure

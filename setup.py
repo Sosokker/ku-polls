@@ -159,6 +159,7 @@ def main():
             subprocess.run([python_command_in_venv, "manage.py", "migrate"], check=True)
             subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/users.json"], check=True)
             subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/polls.json"], check=True)
+            subprocess.run([python_command_in_venv, "manage.py", "loaddata", "data/vote.json"], check=True)
 
             start_server = input("Do you want to start the Django server? (yes/no): ").strip().lower()
             if start_server == "yes":
