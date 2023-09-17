@@ -93,6 +93,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class ResultsView(LoginRequiredMixin, generic.DetailView):
+    """
+    Provide a view for Result page, a Result for the poll contain poll participants
+    number and other statistic such as up, down vote
+    """
     model = Question
     template_name = "polls/results.html"
 
@@ -110,6 +114,9 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
         return context
 
 class SignUpView(generic.CreateView):
+    """
+    View that responsible for Sign Up page.
+    """
     form_class = SignUpForm
     success_url = reverse_lazy('polls:index')
     template_name = 'registration/signup.html'
@@ -167,6 +174,9 @@ def vote(request, question_id):
 
 @login_required
 def up_down_vote(request, question_id, vote_type):
+    """
+    A function that control the upvote and downvote request.
+    """
     ip = get_client_ip(request)
     question = get_object_or_404(Question, pk=question_id)
     
@@ -183,6 +193,9 @@ def up_down_vote(request, question_id, vote_type):
 
 # https://stackoverflow.com/questions/4581789/how-do-i-get-user-ip-address-in-django
 def get_client_ip(request):
+    """
+    Use with logger to get ip of user.
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -190,7 +203,12 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 def search_poll(request):
+    """
+    A function that handle the rendering of search result after user search with
+    search bar. 
+    """
     form = PollSearchForm
 
     results = []
@@ -199,7 +217,9 @@ def search_poll(request):
         form = PollSearchForm(request.GET)
         if form.is_valid():
             q = form.cleaned_data['q']
+            # Case insensitive (icontains)
             results = Question.objects.filter(question_text__icontains=q)
+    # * If user search with empty string then show every poll.
     if q == '':
         results = Question.objects.all()
     return render(request, 'polls/search.html', {'form':form, 'results':results, 'q':q})

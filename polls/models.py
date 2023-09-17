@@ -23,7 +23,7 @@ class Tag(models.Model):
     tag_text = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.tag_text
 
 
 class Question(models.Model):
@@ -128,6 +128,7 @@ class Question(models.Model):
 
     @property
     def time_left(self):
+        """Return time till ending of the poll"""
         return self.calculate_time_left()
 
     def calculate_vote_percentage(self):
@@ -143,10 +144,12 @@ class Question(models.Model):
 
     @property
     def up_vote_percentage(self):
+        """Retrieve up vote percentage from calculate_vote_percentage"""
         return self.calculate_vote_percentage()[0]
 
     @property
     def down_vote_percentage(self):
+        """Retrieve down vote percentage from calculate_vote_percentage"""
         return self.calculate_vote_percentage()[1]
 
     @property
@@ -191,10 +194,12 @@ class Question(models.Model):
 
     @property
     def up_vote_count(self):
+        """Count up vote of Question"""
         return self.sentimentvote_set.filter(question=self, vote_types=True).count()
 
     @property
     def down_vote_count(self):
+        """Count down vote of Question"""
         return self.sentimentvote_set.filter(question=self, vote_types=False).count()
 
     def trending_score(self, up=None, down=None):
@@ -218,7 +223,6 @@ class Question(models.Model):
 
         return score
 
-
     def save(self, *args, **kwargs):
         """Modify save method of Question object"""
         # to-be-added instance # * https://github.com/django/django/blob/866122690dbe233c054d06f6afbc2f3cc6aea2f2/django/db/models/base.py#L447
@@ -228,6 +232,9 @@ class Question(models.Model):
             except ValueError:
                 self.trend_score = self.trending_score(up=0, down=0)
         super(Question, self).save(*args, **kwargs)
+
+    def get_tags(self, *args, **kwargs):
+        return "-".join([tag.tag_text for tag in self.tags.all()])
 
 
 class Choice(models.Model):
