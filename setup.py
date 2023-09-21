@@ -20,13 +20,20 @@ def check_python_command():
 
     return None
 
+def install_virtualenv(python_commands):
+    # Set check=True to throw an error if the return code is non-zero (which is an indication of some error happening).
+    try:
+        subprocess.run([python_commands, "-m", "pip", "install", "--user", "virtualenv"], check=True)
+    except:
+        print("+++Error Occur when try to install Virtualenv+++")
+
 def create_virtual_environment(env_name, python_command):
-    subprocess.run([python_command, "-m", "venv", env_name], check=True)
+    subprocess.run([python_command, "-m", "virtualenv", env_name], check=True)
 
 def customize_virtual_environment():
     env_name = input("Enter a custom virtual environment name (or press Enter for the default): ").strip()
     if not env_name:
-        env_name = ".venv"
+        env_name = "venv"
     return env_name
 
 def setup_environment_variables(python_command_in_venv):
@@ -105,19 +112,21 @@ def main():
         setup_venv = input("Do you want to set up a virtual environment? (yes/no): ").lower()
         if setup_venv == "yes":
             print("==========================Default Mode==========================")
-            if not os.path.exists(".venv"):
-                print("Creating a new virtual environment...")
-                subprocess.run([python_command, "-m", "venv", ".venv"])
+            print("==========================Install Virtualenv==========================")
+            install_virtualenv(python_command)
+            if not os.path.exists("venv"):
+                print("==========================Creating a new virtual environment...==========================")
+                subprocess.run([python_command, "-m", "virtualenv", "venv"])
             else:
                 print("==========================Using an existing virtual environment.==========================")
 
             if is_posix:
-                activate_command = os.path.join(".venv", "bin", "activate")
+                activate_command = os.path.join("venv", "bin", "activate")
             elif is_windows:
-                activate_command = os.path.join(".venv", "Scripts", "activate")
+                activate_command = os.path.join("venv", "Scripts", "activate")
             subprocess.run([activate_command], shell=True)
 
-            python_command = os.path.join(".venv", "bin", "python") if is_posix else os.path.join(".venv", "Scripts", "python")
+            python_command = os.path.join("venv", "bin", "python") if is_posix else os.path.join("venv", "Scripts", "python")
         else:
             print("Not setting up a virtual environment. Using the global Python interpreter.")
 
@@ -149,6 +158,8 @@ def main():
             print("==========================Custom Mode==========================")
             python_commands = check_python_command()
             env_name = customize_virtual_environment()
+            print("==========================Install Virtualenv==========================")
+            install_virtualenv(python_commands)
             create_virtual_environment(env_name, python_commands)
             print(f"Finishing Create Virtual environment {env_name}")
             python_command_in_venv = os.path.join(env_name, "bin", "python") if is_posix else os.path.join(env_name, "Scripts", "python")
