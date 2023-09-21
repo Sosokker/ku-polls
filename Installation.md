@@ -31,7 +31,7 @@ or run `setup.ps1` (For Windows User)
 2. Run these commands to clone this repository and enter the directory.
 ```bash
 git clone https://github.com/Sosokker/ku-polls
-cd ku
+cd ku-polls
 ```
 
 3. (Optional: You can use venv instead)Install virtualenv via pip
@@ -41,20 +41,20 @@ python -m pip install --user virtualenv
 ```
 4. Create virtual environment with `venv` or `virtualenv`.
 ```bash
-python -m virtualenv .venv
+python -m virtualenv venv
 or
-python -m venv .venv
+python -m venv venv
 ```
 5. Use `virtual environment`
 
 - Windows
 ```bash
-.venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 - Linux or MacOS
 ```bash
-source .venv/bin/activate
+source venv/bin/activate
 ```
 6. Install require module.
 ```
@@ -65,6 +65,10 @@ pip install -r requirements.txt
 **You can look at `sample.env` for more information and others environment variables to set.**
 ```bash
 SECRET_KEY=your_secret_key
+DEBUG = False
+ALLOWED_HOSTS = *.ku.th, localhost, 127.0.0.1, ::1
+TIME_ZONE = Asia/Bangkok
+EMAIL_HOST_PASSWORD = yourpassword
 ```
 
 You can generate your own `your_secret_key` by this command
