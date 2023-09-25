@@ -2,7 +2,8 @@ import logging
 from typing import Any
 
 from django import forms
-from django.apps import apps
+# from django.apps import apps
+from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -59,8 +60,12 @@ class PollCreateForm(forms.ModelForm):
     question_text = forms.CharField(min_length=10, max_length=100, required=True,
                                     widget=forms.TextInput(attrs={'class': box_style,
                                                                   'placeholder': "What is your question?"}))
-    pub_date = forms.DateTimeField(widget=forms.DateInput(attrs={'type': 'date'}))
-    end_date = forms.DateTimeField(widget=forms.DateInput(attrs={'type': 'date'}))
+    pub_date = forms.DateTimeField(initial=timezone.now, required=True,
+                                   widget=forms.DateInput(attrs={'type': 'date',
+                                                                 'min': str(timezone.now()).split()[0]}))
+    end_date = forms.DateTimeField(initial=timezone.now()+timezone.timedelta(1),
+                                   widget=forms.DateInput(attrs={'type': 'date',
+                                                          'min': str(timezone.now()+timezone.timedelta(1)).split()[0]}))
     short_description = forms.CharField(max_length=200,
                                         widget=forms.TextInput(
                                             attrs={'class': box_style,
@@ -77,12 +82,12 @@ class PollCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        Tag = apps.get_model('polls', 'Tag')
+        # Tag = apps.get_model('polls', 'Tag')
 
-        tags = forms.MultipleChoiceField(
-        choices=[(tag.id, tag.tag_text) for tag in Tag.objects.all()],
-        widget=forms.CheckboxSelectMultiple,
-    )
+        # tags = forms.MultipleChoiceField(
+        #     choices=[(tag.id, tag.tag_text + "1131") for tag in Tag.objects.all()],
+        #     widget=forms.CheckboxSelectMultiple,
+        # )
 
     class Meta:
         model = Question

@@ -5,6 +5,7 @@ exclude=
     mysite
     logs
     .venv
+    venv
     apps.py
     setup.py
 per-file-ignores =

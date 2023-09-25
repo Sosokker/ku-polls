@@ -1,6 +1,7 @@
 import logging
 from typing import Any
 
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils import timezone
@@ -50,6 +51,16 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
     model = Question
     template_name = "polls/detail.html"
+
+    def get(self, request, *args, **kwargs):
+        """
+        Overide get method, If user search poll that don't avaialable
+        then, redirect to Index Page.
+        """
+        try:
+            return super().get(request, *args, **kwargs)
+        except Http404:
+            return redirect("polls:index")
 
     def get_queryset(self):
         """
@@ -212,15 +223,21 @@ def search_poll(request):
 
     results = []
     q = ''
+    now = timezone.now()
     if 'q' in request.GET:
         form = PollSearchForm(request.GET)
         if form.is_valid():
             q = form.cleaned_data['q']
             # Case insensitive (icontains)
-            results = Question.objects.filter(question_text__icontains=q)
+            results = Question.objects.filter(
+                Q(question_text__icontains=q) & Q(pub_date__lte=now)
+                & ((Q(end_date__gte=now) | Q(end_date=None)))
+            )
     # * If user search with empty string then show every poll.
     if q == '':
-        results = Question.objects.all()
+        results = Question.objects.filter(
+            Q(pub_date__lte=now) & ((Q(end_date__gte=now) | Q(end_date=None)))
+        ).order_by("-pub_date")
     return render(request, 'polls/search.html', {'form': form, 'results': results, 'q': q})
 
 

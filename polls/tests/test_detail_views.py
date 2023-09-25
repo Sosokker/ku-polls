@@ -14,7 +14,7 @@ class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         """
         The detail view of a question with a pub_date in the future
-        returns a 404 not found.
+        returns a 302 not found(Redirect to Index).
         """
         future_question = create_question(question_text="Future question.", day=10)
         future_question.save()
@@ -23,7 +23,7 @@ class QuestionDetailViewTests(TestCase):
 
         url = reverse("polls:detail", args=(future_question.id,))
         respone = self.client.get(url)
-        self.assertEqual(respone.status_code, 404)
+        self.assertEqual(respone.status_code, 302)
 
     def test_past_question(self):
         """
