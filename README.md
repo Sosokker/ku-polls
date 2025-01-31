@@ -1,4 +1,5 @@
-## KU Polls: Online Survey Questions 
+## KU Polls: Online Survey Questions
+
 [![Unit Tests](https://github.com/Sosokker/ku-polls/actions/workflows/django.yml/badge.svg)](https://github.com/Sosokker/ku-polls/actions/workflows/django.yml)
 
 An application to conduct online polls and surveys based
@@ -10,6 +11,30 @@ Here is **[Install Instruction](Installation.md)**.
 
 ## How to Run
 
+### Docker compose
+
+1. Clone the repository then create .env file in the following format
+
+```bash
+git clone https://github.com/Sosokker/ku-polls
+```
+
+.env Format
+
+```file
+SECRET_KEY=your_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost
+TIME_ZONE=Asia/Bangkok
+EMAIL_HOST_PASSWORD=yourpassword
+```
+
+2. Run docker compose
+
+```bash
+docker compose up
+```
+
 ### Setup.py Method
 
 Using setup.py method, it will set `.env` for you and runserver automatically with [--insecure](https://docs.djangoproject.com/en/4.2/ref/contrib/staticfiles/#cmdoption-runserver-insecure).
@@ -18,7 +43,9 @@ You can set `DEBUG=True` later and then runserver normally to load static files.
 Then, connect to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ### Manual Installation
+
 After follow all of instruction.
+
 - Set Virtual Environment and Use it.
 - Install Dependencies.
 - Migrate and then Load fixtures.
@@ -44,25 +71,26 @@ Then, connect to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 **NOTE** : If you have problems with port you can use runserver and specific your own port.
 
 For example, If you run this command then you need to connect to [http://127.0.0.1:7000/](http://127.0.0.1:7000/)
+
 ```bash
 python manage.py runserver 7000
 ```
 
 ## Demo Superuser
 
-|Username|Password|
-|:--:|:--:|
-|admin|ineedmorebullets|
+| Username |     Password     |
+| :------: | :--------------: |
+|  admin   | ineedmorebullets |
 
 ## Demo User
 
-|Username|Password|
-|:--:|:--:|
-|tester1|aa12345678aa|
-|tester2|aa12345678aa|
-|tester3|aa12345678aa|
-|tester4|aa12345678aa|
-|novote |aa12345678aa|
+| Username |   Password   |
+| :------: | :----------: |
+| tester1  | aa12345678aa |
+| tester2  | aa12345678aa |
+| tester3  | aa12345678aa |
+| tester4  | aa12345678aa |
+|  novote  | aa12345678aa |
 
 ## Project Documents
 

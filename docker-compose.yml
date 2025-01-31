@@ -1,0 +1,12 @@
+services:
+  ku-polls:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ku-polls-data:/usr/share/ku-polls
+
+volumes:
+  ku-polls-data:
